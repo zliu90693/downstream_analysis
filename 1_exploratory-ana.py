@@ -64,4 +64,59 @@ check_3_QC_covariates(F1_adata)
 
 # %%
 
+def is_outlier(adata, metric: str, nmads: int):
+    M = adata.obs[metric]
+    outlier = (M < np.median(M) - nmads * median_abs_deviation(M)) | (
+        np.median(M) + nmads * median_abs_deviation(M) < M
+    )
+    return outlier
+
+# %%
+
+def add_outlier_column(adata, nmad, nmad_mt, pct_counts_mt):
+    adata.obs["outlier"] = (
+        is_outlier(adata, "log1p_total_counts", nmad) # 注意, 这里的标准是log!
+        | is_outlier(adata, "log1p_n_genes_by_counts", nmad)
+        | is_outlier(adata, "pct_counts_in_top_20_genes", nmad)
+    )
+    adata.obs["mt_outlier"] = is_outlier(adata, "pct_counts_mt", nmad_mt) | (
+        adata.obs["pct_counts_mt"] > pct_counts_mt 
+    )
+    print(adata.obs["outlier"].value_counts())
+    print(adata.obs["mt_outlier"].value_counts())
+
+
+# %%
+
+add_outlier_column(F1_adata, nmad=5, nmad_mt=3, pct_counts_mt=15) # Outliner: 3693; 6035(mt)
+
+# %%
+
+sc.pl.scatter(F1_adata, "total_counts", "n_genes_by_counts", color="pct_counts_mt")
+
+# %%
+
+def filt_with_outliner_mtoutliner(adata):
+    print(f"Total number of cells: {adata.n_obs}")
+    adata = adata[(~adata.obs.outlier) & (~adata.obs.mt_outlier)].copy() # 注意, 这里不是原地修改, 这是创建了一个新对象, 如果不返回, 这个对象在函数内会被丢弃
+    print(f"Number of cells after filtering of low quality cells: {adata.n_obs}")
+    return adata
+
+# %%
+
+F1_adata = filt_with_outliner_mtoutliner(F1_adata)
+
+# %%
+
+F1_adata.obs["outlier"].value_counts() # 确认完成过滤
+
+# %%
+
+check_3_QC_covariates(F1_adata)
+
+# %%
+
+F1_adata.write("./Zhang_iScience_2022_Amel/h5_QC/ft_F1.h5ad")
+
+# %%
 
