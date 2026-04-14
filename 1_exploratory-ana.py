@@ -11,6 +11,8 @@ import scvi
 # sc.settings.verbosity = 0
 # sc.settings.set_figure_params(dpi=150, facecolor="white", frameon=False)
 
+### ---------------------------------FILT(ft)----------------------------------
+
 # %%
 
 mito_genes = pd.read_csv("./Zhang_iScience_2022_Amel/metadata/mito.txt", header=None, names=["gene_id"])
@@ -119,4 +121,73 @@ check_3_QC_covariates(F1_adata)
 F1_adata.write("./Zhang_iScience_2022_Amel/h5_QC/ft_F1.h5ad")
 
 # %%
+### ---------------------------------cl(clust)----------------------------------
 
+def neo_pre_clust(adata, reso):
+    adata.layers["counts"] = adata.X.copy()
+    sc.pp.normalize_total(adata)
+    sc.pp.log1p(adata)
+    sc.pp.highly_variable_genes(adata, n_top_genes=2000)
+    sc.pp.pca(adata, n_comps=30, use_highly_variable=True)
+    sc.pp.neighbors(adata, n_pcs=20)
+    
+    sc.tl.leiden(adata, key_added=f"leiden_{reso}", resolution=reso)
+
+neo_pre_clust(F1_adata, 0.5)
+
+# %%
+
+F1_adata.write("./Zhang_iScience_2022_Amel/h5_QC/ft-cl_F1.h5ad")
+
+# %%
+
+### 1.1_ft-cl-dX.R 部分
+
+# %%
+
+ft_cl_dX_F1 = sc.read_h5ad("./Zhang_iScience_2022_Amel/h5_QC/ft-cl-dX_F1_0.5.h5ad")
+
+# %%
+
+import matplotlib.pyplot as plt
+
+def visualize(adata):
+    sc.pl.embedding(adata, basis="decontX_UMAP", color="decontX_contamination", cmap="Reds")
+    sc.pl.embedding(adata, basis="decontX_UMAP", color="decontX_clusters")
+
+    plt.hist(adata.obs["decontX_contamination"], bins=50)
+    plt.xlabel("Contamination Score")
+    plt.ylabel("Cell Count")
+    plt.show()
+
+    sc.pl.violin(adata, keys="decontX_contamination", groupby="decontX_clusters")
+
+    print(adata.obs["decontX_contamination"].describe())
+
+# %%
+
+visualize(ft_cl_dX_F1)
+
+# now (F1):
+# count    17347.000000
+# mean         0.113518
+# std          0.158248
+# min          0.000081
+# 25%          0.006794
+# 50%          0.048885
+# 75%          0.152103
+# max          0.985499
+# Name: decontX_contamination, dtype: float64
+
+# LZU: 
+# count    98341.000000
+# mean         0.147522
+# std          0.194822
+# min          0.000060
+# 25%          0.012197
+# 50%          0.066939
+# 75%          0.202979
+# max          0.999600
+# Name: decontX_contamination, dtype: float64
+
+# %%
