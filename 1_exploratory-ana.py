@@ -6,7 +6,6 @@ import seaborn as sns
 from scipy.stats import median_abs_deviation
 
 import scanpy as sc
-import scvi
 
 # sc.settings.verbosity = 0
 # sc.settings.set_figure_params(dpi=150, facecolor="white", frameon=False)
