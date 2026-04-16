@@ -31,6 +31,11 @@ size_factors <- sizeFactors(
 
 # %%
 
+length(size_factors)
+summary(size_factors) # 确保无NaN
+
+# %%
+
 # ── 输出结果 ────────────────────────────────────────────────
 write.csv(
     data.frame(size_factors = size_factors),

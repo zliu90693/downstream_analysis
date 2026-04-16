@@ -11,6 +11,16 @@ from scipy.sparse import issparse
 
 F1_adata = sc.read_h5ad("./Zhang_iScience_2022_Amel/h5_QC/ft_F1.h5ad")
 
+# %% 
+
+# filt genes appear in < 20 Cells
+
+print(f"Total number of genes: {F1_adata.n_vars}")
+
+# Min 20 cells - filters out 0 count genes
+sc.pp.filter_genes(F1_adata, min_cells=20)
+print(f"Number of genes after cell filter: {F1_adata.n_vars}")
+
 # %%
 
 sns.histplot(F1_adata.obs["total_counts"], bins=100, kde=False)
@@ -90,4 +100,30 @@ F1_adata.layers["scran_normalization"] = csr_matrix(scran_logged)
 # %%
 
 analytic_pearson = sc.experimental.pp.normalize_pearson_residuals(F1_adata, inplace=False)
+F1_adata.layers["analytic_pearson_residuals"] = csr_matrix(analytic_pearson["X"])
 
+# %%
+
+# check
+mat = F1_adata.layers["analytic_pearson_residuals"]
+# 检查 inf 和 nan 的数量
+print("inf 数量:", np.isinf(mat.data).sum())
+print("nan 数量:", np.isnan(mat.data).sum())
+
+# 检查全0基因数量
+zero_genes = np.asarray(F1_adata.X.sum(0)).flatten() == 0
+print("全零基因数量:", zero_genes.sum())
+print("全零基因名称:", F1_adata.var_names[zero_genes].tolist())
+
+# %%
+
+fig, axes = plt.subplots(1, 2, figsize=(10, 5))
+p1 = sns.histplot(F1_adata.obs["total_counts"], bins=100, kde=False, ax=axes[0])
+axes[0].set_title("Total counts")
+p2 = sns.histplot(
+    F1_adata.layers["analytic_pearson_residuals"].sum(1), bins=100, kde=False, ax=axes[1]
+)
+axes[1].set_title("Analytic Pearson residuals")
+plt.show()
+
+# %%
