@@ -57,5 +57,37 @@ if issparse(F1_data_mat):
     else:
         F1_data_mat = F1_data_mat.tocsc()
     # Convert sparse matrix to dense numpy array
-    F1_data_mat = F1_data_mat.toarray()
+    # F1_data_mat = F1_data_mat.toarray()
 mmwrite("./Zhang_iScience_2022_Amel/metadata/F1_data_mat.mtx", F1_data_mat)
+
+# %%
+
+F1_adata_pp.obs[["groups"]].to_csv("./Zhang_iScience_2022_Amel/metadata/input_groups.csv")
+
+# %%
+
+del F1_adata_pp
+
+# %%
+
+### 2.1_run_scran.R
+
+# %%
+
+import pandas as pd
+
+size_factors = pd.read_csv("./Zhang_iScience_2022_Amel/metadata/size_factors.csv", index_col=0).squeeze()
+
+# %%
+
+F1_adata.obs["size_factors"] = size_factors.values
+scran = F1_adata.X / F1_adata.obs["size_factors"].values[:, None]
+scran_logged = np.log1p(scran)
+F1_adata.layers["scran_normalization"] = csr_matrix(scran_logged)
+
+# ---------------------------------------- Pearson ---------------------------------------- 
+
+# %%
+
+analytic_pearson = sc.experimental.pp.normalize_pearson_residuals(F1_adata, inplace=False)
+
