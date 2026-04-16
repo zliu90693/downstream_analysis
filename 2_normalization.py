@@ -127,3 +127,7 @@ axes[1].set_title("Analytic Pearson residuals")
 plt.show()
 
 # %%
+
+F1_adata.write("./Zhang_iScience_2022_Amel/h5_QC/ft-Nm_F1.h5ad")
+
+# %%
