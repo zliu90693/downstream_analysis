@@ -28,7 +28,7 @@ sns.histplot(F1_adata.obs["total_counts"], bins=100, kde=False)
 # %%
 # ---------------------------------------- Shifted logarithm ----------------------------------------
 
-scales_counts = sc.pp.normalize_total(F1_adata, target_sum=None, inplace=False)
+scales_counts = sc.pp.normalize_total(F1_adata, target_sum=None, inplace=False) # inplace=False, 防止Normalize覆盖X
 F1_adata.layers["log1p_norm"] = sc.pp.log1p(scales_counts["X"], copy=True)
 
 # %%
@@ -99,7 +99,7 @@ F1_adata.layers["scran_normalization"] = csr_matrix(scran_logged)
 
 # %%
 
-analytic_pearson = sc.experimental.pp.normalize_pearson_residuals(F1_adata, inplace=False)
+analytic_pearson = sc.experimental.pp.normalize_pearson_residuals(F1_adata, inplace=False)  # inplace=False, 防止Normalize覆盖X
 F1_adata.layers["analytic_pearson_residuals"] = csr_matrix(analytic_pearson["X"])
 
 # %%
