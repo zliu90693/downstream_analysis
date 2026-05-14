@@ -47,7 +47,7 @@ sc.pp.calculate_qc_metrics(
 print(F1_adata.obs['total_counts'].describe()) # 检查其中是否包含空液滴
 
 # %%
-# 绘制_genes_by_counts、total_counts 和 pct_counts_mt, 三个QC相关协变量
+# 绘制n_genes_by_counts、total_counts 和 pct_counts_mt, 三个QC相关协变量
 
 import numpy as np
 import seaborn as sns
