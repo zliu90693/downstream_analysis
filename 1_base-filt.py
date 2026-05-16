@@ -37,8 +37,8 @@ def load_h5_parallel(
 def add_mito(
     project_name: str, 
     adata: anndata.AnnData,
-    mito_prefix: str = "MT"
-) -> anndata.AnnData:
+    mito_prefix: str = "MT-"
+) -> None:
     if adata.var_names.str.startswith(mito_prefix).sum() == 13:
         adata.var["mt"] = adata.var_names.str.startswith(mito_prefix)
     elif adata.var_names.str.startswith(mito_prefix).sum() == 0:
@@ -46,9 +46,8 @@ def add_mito(
         adata.var["mt"] = adata.var_names.isin(mito_genes["gene_id"])
     else:
         raise ValueError("Unable to determine the identification format for mitochondrial genes. Please check the data or provide a correct list of mitochondrial genes.")
-    return adata
 
-def cal_metrics(adata: anndata.AnnData) -> anndata.AnnData:
+def cal_metrics(adata: anndata.AnnData) -> None:
     sc.pp.calculate_qc_metrics(
         adata, 
         qc_vars=['mt'], 
@@ -56,14 +55,14 @@ def cal_metrics(adata: anndata.AnnData) -> anndata.AnnData:
         percent_top=[20], # 计算表达量排名前20基因占总表达量百分比, 判断表达量是否集中于少数基因
         log1p=True # 对部分指标进行log1p变换
     )
-    return adata
 
 def check_3_QC_covariates(
     project_name: str, 
     file_name: str,
+    dir_name: str,
     adata: anndata.AnnData
 ) -> None:
-    out_dir = Path(f"./{project_name}/figures/1_before-filt")
+    out_dir = Path(f"./{project_name}/figures/{dir_name}")
     out_dir.mkdir(parents=True, exist_ok=True)
 
     g = sns.displot(adata.obs["total_counts"], bins=100, kde=False) 
@@ -84,11 +83,64 @@ def check_3_QC_covariates(
 
 # %%
 
-Hsal_ann_dic = load_h5_parallel("Sheng_SA_2020_Hsal")
-for key, adata in Hsal_ann_dic.items():
-    adata = add_mito("Sheng_SA_2020_Hsal", adata)
-    adata = cal_metrics(adata)
-    check_3_QC_covariates("Sheng_SA_2020_Hsal", key, adata)
+def _is_outlier(
+    adata: anndata.AnnData,
+    metric: str, 
+    nmads: int
+) -> pd.Series:
+    M = adata.obs[metric]
+    outlier = (M < np.median(M) - nmads * median_abs_deviation(M)) | (
+        np.median(M) + nmads * median_abs_deviation(M) < M
+    )
+    return outlier
 
+def add_outlier_column(
+    adata: anndata.AnnData, 
+    nmad: int = 5, 
+    nmad_mt: int = 3, 
+    pct_counts_mt: int = 20
+) -> None:
+    adata.obs["outlier"] = (
+        _is_outlier(adata, "log1p_total_counts", nmad) # 注意, 这里的标准是log!
+        | _is_outlier(adata, "log1p_n_genes_by_counts", nmad)
+        | _is_outlier(adata, "pct_counts_in_top_20_genes", nmad)
+    )
+    adata.obs["mt_outlier"] = _is_outlier(adata, "pct_counts_mt", nmad_mt) | (
+        adata.obs["pct_counts_mt"] > pct_counts_mt
+    )
+    print(adata.obs["outlier"].value_counts())
+    print(adata.obs["mt_outlier"].value_counts())
+
+def filter_outliers(adata: anndata.AnnData) -> anndata.AnnData:
+    print(f"Total number of cells: {adata.n_obs}")
+    adata = adata[~adata.obs["outlier"] & ~adata.obs["mt_outlier"]].copy()
+    print(f"Number of cells after filtering of low quality cells: {adata.n_obs}")
+    return adata
+
+# def check_3_QC_covariates(dir_name = "2_after_filt")
+
+# %%
+
+Hsal_ann_dic = load_h5_parallel("Sheng_SA_2020_Hsal")
+
+# %%
+
+for key, adata in Hsal_ann_dic.items():
+    add_mito("Sheng_SA_2020_Hsal", adata)
+    cal_metrics(adata)
+    check_3_QC_covariates("Sheng_SA_2020_Hsal", key, "1_before-filt", adata)
+
+# %%
+
+for key, adata in Hsal_ann_dic.items():
+    add_outlier_column(adata, nmad=5, nmad_mt=3, pct_counts_mt=20)
+    adata = filter_outliers(adata)
+    Hsal_ann_dic[key] = adata # 更新字典中的对象!!! 非常重要!!!
+    # 否则, 局部变量 adata 确实指向了新对象，但字典 Hsal_ann_dic[key] 的引用从未改变
+    # adata = xxx 只是把标签 adata 贴到新对象上，不会反向修改原来持有该对象的地方（字典、列表、全局变量等）
+
+# %%
+for key, adata in Hsal_ann_dic.items():
+    check_3_QC_covariates("Sheng_SA_2020_Hsal", key, "2_after-filt", adata)
 
 # %%
