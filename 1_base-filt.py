@@ -121,6 +121,8 @@ def filter_outliers(adata: anndata.AnnData) -> anndata.AnnData:
 
 # %%
 
+# ---------------------------------------- Harpegnathos venator ----------------------------------------
+
 Hsal_ann_dic = load_h5_parallel("Sheng_SA_2020_Hsal")
 
 # %%
@@ -128,7 +130,7 @@ Hsal_ann_dic = load_h5_parallel("Sheng_SA_2020_Hsal")
 for key, adata in Hsal_ann_dic.items():
     add_mito("Sheng_SA_2020_Hsal", adata)
     cal_metrics(adata)
-    check_3_QC_covariates("Sheng_SA_2020_Hsal", key, "1_before-filt", adata)
+    check_3_QC_covariates("Sheng_SA_2020_Hsal", key, "1.1_before-filt", adata)
 
 # %%
 
@@ -141,6 +143,14 @@ for key, adata in Hsal_ann_dic.items():
 
 # %%
 for key, adata in Hsal_ann_dic.items():
-    check_3_QC_covariates("Sheng_SA_2020_Hsal", key, "2_after-filt", adata)
+    check_3_QC_covariates("Sheng_SA_2020_Hsal", key, "1.2_after-filt", adata)
+
+# %%
+out_dir = Path(f"./Sheng_SA_2020_Hsal/1_base-filt-output")
+out_dir.mkdir(parents=True, exist_ok=True)
+for key, adata in Hsal_ann_dic.items():
+    adata.write_h5ad(f"./Sheng_SA_2020_Hsal/1_base-filt-output/{key}.h5ad")
+
+# ------------------------------------------------------------------------------------------------------
 
 # %%

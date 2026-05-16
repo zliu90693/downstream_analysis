@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="2TSOS-NH89Xuvzve4x6J" name="Page-1">
-        <mxGraphModel dx="1248" dy="863" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1029" dy="929" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -211,10 +211,10 @@
                 <mxCell id="65" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="51" target="64">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="51" value="sp Sample1.h5&amp;nbsp;&lt;div&gt;(in 1_base-filt-output dir)&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="51" value="sp Sample1.h5ad&amp;nbsp;&lt;div&gt;(in 1_base-filt-output dir)&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
                     <mxGeometry x="-130" y="1290" width="100" height="50" as="geometry"/>
                 </mxCell>
-                <mxCell id="52" value="sp Sample1.h5&amp;nbsp;&lt;div&gt;(in 2_check-ambient-output dir)&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="52" value="sp Sample1.h5ad&amp;nbsp;&lt;div&gt;(in 2_check-ambient-output dir)&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
                     <mxGeometry x="-250" y="1480" width="120" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="70" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="55" target="69">
