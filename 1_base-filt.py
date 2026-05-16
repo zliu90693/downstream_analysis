@@ -20,10 +20,11 @@ def _read_single(file_path: str) -> tuple[str, anndata.AnnData]: #_worker 函数
 
 def load_h5_parallel(
     project_name: str, 
+    dir_name: str,
     suffix: str = ".h5", 
     max_workers: int = 8  # 线程可以开更多，开销小
 ):
-    directory = f"{project_name}/h5_from_fastq2matrix"
+    directory = f"{project_name}/{dir_name}"
     path = Path(directory)
     files = [str(f) for f in path.glob(f"*{suffix}") if f.is_file()]
     
@@ -123,14 +124,14 @@ def filter_outliers(adata: anndata.AnnData) -> anndata.AnnData:
 
 # ---------------------------------------- Harpegnathos venator ----------------------------------------
 
-Hsal_ann_dic = load_h5_parallel("Sheng_SA_2020_Hsal")
+Hsal_ann_dic = load_h5_parallel("Sheng_SA_2020_Hsal", dir_name="h5_from_fastq2matrix", suffix=".h5", max_workers=8)
 
 # %%
 
 for key, adata in Hsal_ann_dic.items():
     add_mito("Sheng_SA_2020_Hsal", adata)
     cal_metrics(adata)
-    check_3_QC_covariates("Sheng_SA_2020_Hsal", key, "1.1_before-filt", adata)
+    check_3_QC_covariates("Sheng_SA_2020_Hsal", key, "1-1_before-filt", adata)
 
 # %%
 
@@ -143,7 +144,7 @@ for key, adata in Hsal_ann_dic.items():
 
 # %%
 for key, adata in Hsal_ann_dic.items():
-    check_3_QC_covariates("Sheng_SA_2020_Hsal", key, "1.2_after-filt", adata)
+    check_3_QC_covariates("Sheng_SA_2020_Hsal", key, "1-2_after-filt", adata)
 
 # %%
 out_dir = Path(f"./Sheng_SA_2020_Hsal/1_base-filt-output")
