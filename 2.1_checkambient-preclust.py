@@ -2,7 +2,7 @@
 import anndata
 import scanpy as sc
 from pathlib import Path
-from concurrent.futures import ThreadPoolExecutor 
+from concurrent.futures import ProcessPoolExecutor # 用多进程!! hdf5库和多线程配合极易引发死锁!!!
 
 # %%
 
@@ -13,16 +13,23 @@ def _read_single_h5ad(file_path: str) -> tuple[str, anndata.AnnData]: #_worker �
     return name, adata
 
 def load_h5_parallel(
-    project_name: str, 
+    project_name: str,
     dir_name: str,
-    suffix: str = ".h5ad", 
-    max_workers: int = 8  # 线程可以开更多，开销小
+    suffix: str = ".h5ad",
+    max_workers: int = 8  # 进程数不要超过CPU核心数
 ):
     directory = f"{project_name}/{dir_name}"
     path = Path(directory)
     files = [str(f) for f in path.glob(f"*{suffix}") if f.is_file()]
     
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+    print(f"Found {len(files)} files: {[Path(f).name for f in files]}")  
+    
+    # 文件小时，串行反而最快
+    if len(files) <= 4:
+        return {f: sc.read_h5ad(f) for f in files}
+    
+    # 文件多且大时，用进程池绕过GIL
+    with ProcessPoolExecutor(max_workers=max_workers) as executor:
         results = executor.map(_read_single_h5ad, files)
         return dict(results)
 
