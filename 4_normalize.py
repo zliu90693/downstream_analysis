@@ -106,7 +106,25 @@ def visualize_scran(
 
 # ---------------------------------------- Pearson correlation ----------------------------------------
 
+# %%
 
+def do_pearson(
+    adata: anndata.AnnData
+) -> None:
+    analytic_pearson = sc.experimental.pp.normalize_pearson_residuals(adata, inplace=False)
+    adata.layers["analytic_pearson_residuals"] = csr_matrix(analytic_pearson["X"])
+
+def visualize_pearson(
+    adata: anndata.AnnData
+) -> None:
+    fig, axes = plt.subplots(1, 2, figsize=(10, 5))
+    p1 = sns.histplot(adata.obs["total_counts"], bins=100, kde=False, ax=axes[0])
+    axes[0].set_title("Total counts")
+    p2 = sns.histplot(
+        adata.layers["analytic_pearson_residuals"].sum(1), bins=100, kde=False, ax=axes[1]
+    )
+    axes[1].set_title("Analytic Pearson residuals")
+    plt.show()
     
 # %%
 
@@ -135,5 +153,13 @@ combine_scran_output(project_name, combined_h5ad)
 # %%
 
 visualize_scran(combined_h5ad)
+
+# %%
+
+do_pearson(combined_h5ad)
+visualize_pearson(combined_h5ad)
+# %%
+
+combined_h5ad.write_h5ad(f"./{project_name}/4_normalize-output/concat.h5ad")
 
 # %%

@@ -56,6 +56,10 @@ h5ad_concat = sc.concat(
 
 # %%
 
+h5ad_concat.layers["counts"] = h5ad_concat.X.copy()
+
+# %%
+
 sc.pp.filter_genes(h5ad_concat, min_cells=20) # 过滤掉至少 20 个细胞中未检测到的基因，因为这些基因不具有参考价值, 在极少数细胞中检测到的基因通常是技术噪声、环境 RNA 污染或随机低水平转录的结果
 
 # %%
