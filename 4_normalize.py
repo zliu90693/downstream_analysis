@@ -41,7 +41,9 @@ def visualize_shift_log(
 
 # ----------------------------------- Scran -----------------------------------
 
-def 
+def do_scran(
+    adata: anndata.AnnData
+) -> None:
 
 # %%
 
