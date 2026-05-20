@@ -1,5 +1,7 @@
 #!/home/liuzhiyu/Software/miniconda3/envs/rm_ambient_doublet/bin/Rscript
 
+.libPaths(c("/home/liuzhiyu/Software/miniconda3/envs/rm_ambient_doublet/lib/R/library", .libPaths()))
+
 library(scran)
 library(BiocParallel)
 library(Matrix)
