@@ -66,32 +66,37 @@ def visualize_feature_selection(
     plt.show()
 
 # %%
-
-
+# ------------------------------------------------------------------------------------------------------
+# --------------------------------------------- Pipeline -----------------------------------------------
+# ------------------------------------------------------------------------------------------------------
 
 # ---------------------------------------- Harpegnathos venator ----------------------------------------
 
 # %%
-
 project_name = "Sheng_SA_2020_Hsal"
 combined_h5ad = sc.read_h5ad(f"./{project_name}/4_normalize-output/concat.h5ad")
-
 # %%
-
 feature_selection_export(project_name, combined_h5ad)
-
 # %%
-
 do_feature_selection(project_name)
-
 # %%
-
 combine_feature_selection_output(project_name, combined_h5ad)
 do_hvg(combined_h5ad)
 visualize_feature_selection(combined_h5ad)
-
 # %%
-
 combined_h5ad.write_h5ad(f"./{project_name}/5_feature-selection-output/concat.h5ad")
-
 # %%
+# ---------------------------------------- Apis cerana ----------------------------------------
+# %%
+project_name = "Acer"
+combined_h5ad = sc.read_h5ad(f"./{project_name}/4_normalize-output/concat.h5ad")
+# %%
+feature_selection_export(project_name, combined_h5ad)
+# %%
+do_feature_selection(project_name)
+# %%
+combine_feature_selection_output(project_name, combined_h5ad)
+do_hvg(combined_h5ad)
+visualize_feature_selection(combined_h5ad)
+# %%
+combined_h5ad.write_h5ad(f"./{project_name}/5_feature-selection-output/concat.h5ad")

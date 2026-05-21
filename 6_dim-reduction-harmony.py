@@ -173,3 +173,59 @@ visualize(combined_h5ad, basis="X_umap_harmony_log1p", color=["total_counts", "p
 # %%
 combined_h5ad.write(f"./{project_name}/6_dim-reduction-output/concat.h5ad")
 # %%
+# ---------------------------------------- Apis cerana ----------------------------------------
+# %%
+
+project_name = "Acer"
+combined_h5ad = sc.read_h5ad(f"./{project_name}/5_feature-selection-output/concat.h5ad")
+# %%
+run_pca(combined_h5ad, layer="scran_normalization", neo_key="scran")
+run_pca(combined_h5ad, layer="analytic_pearson_residuals", neo_key="pearson")
+run_pca(combined_h5ad, layer="log1p_norm", neo_key="log1p")
+# %%
+visualize(combined_h5ad, basis="X_pca_scran", color=["total_counts", "pct_counts_mt", "batch"])
+visualize(combined_h5ad, basis="X_pca_pearson", color=["total_counts", "pct_counts_mt", "batch"])
+visualize(combined_h5ad, basis="X_pca_log1p", color=["total_counts", "pct_counts_mt", "batch"])
+# sc.pl.pca_loadings(combined_h5ad, components=[1, 2])
+# %%
+run_tsne(combined_h5ad, use_rep="X_pca_scran", neo_key="scran")
+run_tsne(combined_h5ad, use_rep="X_pca_pearson", neo_key="pearson")
+run_tsne(combined_h5ad, use_rep="X_pca_log1p", neo_key="log1p") 
+# %%
+visualize(combined_h5ad, basis="X_tsne_scran", color=["total_counts", "pct_counts_mt", "batch"])
+visualize(combined_h5ad, basis="X_tsne_pearson", color=["total_counts", "pct_counts_mt", "batch"])
+visualize(combined_h5ad, basis="X_tsne_log1p", color=["total_counts", "pct_counts_mt", "batch"])
+# %%
+run_umap(combined_h5ad, use_rep="X_pca_scran", neo_key="scran")
+run_umap(combined_h5ad, use_rep="X_pca_pearson", neo_key="pearson")
+run_umap(combined_h5ad, use_rep="X_pca_log1p", neo_key="log1p")
+# %%
+visualize(combined_h5ad, basis="X_umap_scran", color=["total_counts", "pct_counts_mt", "batch"])
+visualize(combined_h5ad, basis="X_umap_pearson", color=["total_counts", "pct_counts_mt", "batch"])
+visualize(combined_h5ad, basis="X_umap_log1p", color=["total_counts", "pct_counts_mt", "batch"])
+# %%
+run_harmony(combined_h5ad, batch_key="batch", use_rep="X_pca_scran", adjusted_basis='X_pca_harmony_scran')
+run_harmony(combined_h5ad, batch_key="batch", use_rep="X_pca_pearson", adjusted_basis='X_pca_harmony_pearson')
+run_harmony(combined_h5ad, batch_key="batch", use_rep="X_pca_log1p", adjusted_basis='X_pca_harmony_log1p')
+# %%
+visualize(combined_h5ad, basis="X_pca_harmony_scran", color=["total_counts", "pct_counts_mt", "batch"])
+visualize(combined_h5ad, basis="X_pca_harmony_pearson", color=["total_counts", "pct_counts_mt", "batch"])
+visualize(combined_h5ad, basis="X_pca_harmony_log1p", color=["total_counts", "pct_counts_mt", "batch"])
+# %%
+run_tsne(combined_h5ad, use_rep="X_pca_harmony_scran", neo_key="harmony_scran")
+run_tsne(combined_h5ad, use_rep="X_pca_harmony_pearson", neo_key="harmony_pearson")
+run_tsne(combined_h5ad, use_rep="X_pca_harmony_log1p", neo_key="harmony_log1p") 
+# %%
+visualize(combined_h5ad, basis="X_tsne_harmony_scran", color=["total_counts", "pct_counts_mt", "batch"])
+visualize(combined_h5ad, basis="X_tsne_harmony_pearson", color=["total_counts", "pct_counts_mt", "batch"])
+visualize(combined_h5ad, basis="X_tsne_harmony_log1p", color=["total_counts", "pct_counts_mt", "batch"])
+# %%
+run_umap(combined_h5ad, use_rep="X_pca_harmony_scran", neo_key="harmony_scran")
+run_umap(combined_h5ad, use_rep="X_pca_harmony_pearson", neo_key="harmony_pearson")
+run_umap(combined_h5ad, use_rep="X_pca_harmony_log1p", neo_key="harmony_log1p")
+# %%
+visualize(combined_h5ad, basis="X_umap_harmony_scran", color=["total_counts", "pct_counts_mt", "batch"])
+visualize(combined_h5ad, basis="X_umap_harmony_pearson", color=["total_counts", "pct_counts_mt", "batch"])
+visualize(combined_h5ad, basis="X_umap_harmony_log1p", color=["total_counts", "pct_counts_mt", "batch"])
+# %%
+combined_h5ad.write(f"./{project_name}/6_dim-reduction-output/concat.h5ad")
