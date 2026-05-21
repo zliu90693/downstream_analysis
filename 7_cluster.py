@@ -64,5 +64,5 @@ visualize(combined_h5ad, basis="X_umap_harmony_scran", color=["leiden_harmony_sc
 visualize(combined_h5ad, basis="X_umap_harmony_pearson", color=["leiden_harmony_pearson_res0.25", "leiden_harmony_pearson_res0.50", "leiden_harmony_pearson_res1.00"])
 visualize(combined_h5ad, basis="X_umap_harmony_log1p", color=["leiden_harmony_log1p_res0.25", "leiden_harmony_log1p_res0.50", "leiden_harmony_log1p_res1.00"])
 # %%
-combined_h5ad.write(f"./{project_name}/7_cluster/concat.h5ad")
+combined_h5ad.write(f"./{project_name}/7_cluster-output/concat.h5ad")
 # %%

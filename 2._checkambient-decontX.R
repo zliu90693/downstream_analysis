@@ -1,9 +1,7 @@
+#!/home/liuzhiyu/Software/miniconda3/envs/rm_ambient_doublet/bin/Rscript
 # %%
-
-R
-
+.libPaths(c("/home/liuzhiyu/Software/miniconda3/envs/rm_ambient_doublet/lib/R/library", .libPaths()))
 # %%
-
 library(celda)
 library(SingleCellExperiment)
 library(Seurat)
@@ -12,9 +10,11 @@ library(anndataR)
 library(zellkonverter)
 library(future.apply)
 library(tools)
-
 # %%
-
+args <- commandArgs(trailingOnly = TRUE)
+project_name <- args[1]
+cluster_col <- args[2]
+# %%
 load_h5ad_parallel <- function(project_name, suffix = ".h5ad", max_workers = 8) {
     # 1. 构建目录路径 & 获取文件列表
     directory <- file.path(project_name, "2_checkambient-output")
@@ -36,9 +36,7 @@ load_h5ad_parallel <- function(project_name, suffix = ".h5ad", max_workers = 8) 
     
     return(adata_list)
 }
-
 # %%
-
 Anndata_2_SCE <- function(anndata) {
     counts_raw <- anndata$layers[["counts"]]
     if (is.null(counts_raw)) {
@@ -62,7 +60,6 @@ Anndata_2_SCE <- function(anndata) {
 }
 
 # %%
-
 materialize <- function(sce, assay_name) {
     # Matrix::t(as(assay(sce, assay_name), "CsparseMatrix"))
     mtx <- assay(sce, assay_name)
@@ -71,7 +68,7 @@ materialize <- function(sce, assay_name) {
     }
     return(Matrix::t(mtx))
 }
-
+# %%
 SCE_2_Anndata <- function(sce) {
     counts_t <- materialize(sce, "counts")
     decontXcounts_t <- materialize(sce, "decontXcounts")
@@ -88,32 +85,16 @@ SCE_2_Anndata <- function(sce) {
     )
     return(anndata)
 }
-
 # %%
-
-setwd("/home/liuzhiyu/Projects/neo_caste/downstream_analysis")
-
+h5ad_dic <- load_h5ad_parallel(project_name)
 # %%
-
-# -----------------------------------------------------------------------------
-# ---------------------------    Workflow    ----------------------------------
-# -----------------------------------------------------------------------------
-
-
-Hsal_h5ad_dic <- load_h5ad_parallel("Sheng_SA_2020_Hsal")
-
-# %%
-
-Hsal_sce_dic <- lapply(Hsal_h5ad_dic, Anndata_2_SCE)  # 直接覆盖原对象
+sce_dic <- lapply(h5ad_dic, Anndata_2_SCE)  # 直接覆盖原对象
 gc() # 手动触发垃圾回收，释放未使用的内存
-
 # %%
-
-cluster_col <- "leiden_0.8"
-Hsal_decont_dic <- lapply(Hsal_sce_dic, function(sce) {
+decont_dic <- lapply(sce_dic, function(sce) {
     # 1. 安全检查：确认聚类列存在于 colData 中
     if (!cluster_col %in% colnames(colData(sce))) {
-        stop(paste("Sample", names(Hsal_sce_dic)[which(Hsal_sce_dic == sce)], 
+        stop(paste("Sample", names(sce_dic)[which(sce_dic == sce)], 
                 "without ", cluster_col, "column in colData"))
     }
     
@@ -125,22 +106,16 @@ Hsal_decont_dic <- lapply(Hsal_sce_dic, function(sce) {
     
     return(sce)
 })
-
 # %%
-
-lapply(Hsal_decont_dic, function(sce) {
+lapply(decont_dic, function(sce) {
     summary(sce$decontX_contamination)
 })
-
 # %%
-
-Hsal_deconth5ad_dic <- lapply(Hsal_decont_dic, SCE_2_Anndata)
-
+deconth5ad_dic <- lapply(decont_dic, SCE_2_Anndata)
 # %%
-
-output_dir <- file.path("Sheng_SA_2020_Hsal", "2_checkambient-output")
-for (key in names(Hsal_deconth5ad_dic)) {
-    adata <- Hsal_deconth5ad_dic[[key]]
+output_dir <- file.path(project_name, "2_checkambient-output")
+for (key in names(deconth5ad_dic)) {
+    adata <- deconth5ad_dic[[key]]
     filename <- file.path(output_dir, paste0(key, "_decontX.h5ad"))
     
     if (file.exists(filename)) {
@@ -154,4 +129,4 @@ for (key in names(Hsal_deconth5ad_dic)) {
     }, error = function(e) {
         warning(sprintf("Error while saving [%s]: %s", key, e$message))
     })
-    }
+}

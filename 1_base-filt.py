@@ -50,7 +50,7 @@ def add_mito(
         adata.var["mt"] = adata.var_names.str.startswith(mito_prefix)
     elif adata.var_names.str.startswith(mito_prefix).sum() == 0:
         mito_genes = pd.read_csv(f"./{project_name}/metadata/mito.txt", header=None, names=["gene_id"])
-        adata.var["mt"] = adata.var_names.isin(mito_genes["gene_id"])
+        adata.var["mt"] = adata.var["gene_ids"].isin(mito_genes["gene_id"])
     else:
         raise ValueError("Unable to determine the identification format for mitochondrial genes. Please check the data or provide a correct list of mitochondrial genes.")
 
@@ -128,36 +128,62 @@ def filter_outliers(adata: anndata.AnnData) -> anndata.AnnData:
 
 # %%
 
+# ------------------------------------------------------------------------------------------------------
+# --------------------------------------------- Pipeline -----------------------------------------------
+# ------------------------------------------------------------------------------------------------------
+
 # ---------------------------------------- Harpegnathos venator ----------------------------------------
-
-Hsal_ann_dic = load_h5_parallel("Sheng_SA_2020_Hsal", dir_name="h5_from_fastq2matrix", suffix=".h5", max_workers=8)
-
+project_name = "Sheng_SA_2020_Hsal"
+ann_dic = load_h5_parallel(project_name, dir_name="h5_from_fastq2matrix", suffix=".h5", max_workers=8)
 # %%
-
-for key, adata in Hsal_ann_dic.items():
-    add_mito("Sheng_SA_2020_Hsal", adata)
+for key, adata in ann_dic.items():
+    add_mito(project_name, adata)
     cal_metrics(adata)
-    check_3_QC_covariates("Sheng_SA_2020_Hsal", key, "1-1_before-filt", adata)
+    check_3_QC_covariates(project_name, key, "1-1_before-filt", adata)
 
 # %%
-
-for key, adata in Hsal_ann_dic.items():
+for key, adata in ann_dic.items():
     add_outlier_column(adata, nmad=5, nmad_mt=3, pct_counts_mt=20)
     adata = filter_outliers(adata)
-    Hsal_ann_dic[key] = adata # 更新字典中的对象!!! 非常重要!!!
-    # 否则, 局部变量 adata 确实指向了新对象，但字典 Hsal_ann_dic[key] 的引用从未改变
+    ann_dic[key] = adata # 更新字典中的对象!!! 非常重要!!!
+    # 否则, 局部变量 adata 确实指向了新对象，但字典 ann_dic[key] 的引用从未改变
     # adata = xxx 只是把标签 adata 贴到新对象上，不会反向修改原来持有该对象的地方（字典、列表、全局变量等）
-
 # %%
-for key, adata in Hsal_ann_dic.items():
-    check_3_QC_covariates("Sheng_SA_2020_Hsal", key, "1-2_after-filt", adata)
-
+for key, adata in ann_dic.items():
+    check_3_QC_covariates(project_name, key, "1-2_after-filt", adata)
 # %%
-out_dir = Path(f"./Sheng_SA_2020_Hsal/1_base-filt-output")
+out_dir = Path(f"./{project_name}/1_base-filt-output")
 out_dir.mkdir(parents=True, exist_ok=True)
-for key, adata in Hsal_ann_dic.items():
-    adata.write_h5ad(f"./Sheng_SA_2020_Hsal/1_base-filt-output/{key}.h5ad")
+for key, adata in ann_dic.items():
+    adata.write_h5ad(f"./{project_name}/1_base-filt-output/{key}.h5ad")
 
 # ------------------------------------------------------------------------------------------------------
+
+# %%
+
+# ---------------------------------------- Apis cerana ----------------------------------------
+project_name = "Acer"
+ann_dic = load_h5_parallel(project_name, dir_name="h5_from_fastq2matrix", suffix=".h5", max_workers=8)
+# %%
+for key, adata in ann_dic.items():
+    add_mito(project_name, adata)
+    cal_metrics(adata)
+    check_3_QC_covariates(project_name, key, "1-1_before-filt", adata)
+
+# %%
+for key, adata in ann_dic.items():
+    add_outlier_column(adata, nmad=5, nmad_mt=3, pct_counts_mt=10)
+    adata = filter_outliers(adata)
+    ann_dic[key] = adata # 更新字典中的对象!!! 非常重要!!!
+    # 否则, 局部变量 adata 确实指向了新对象，但字典 ann_dic[key] 的引用从未改变
+    # adata = xxx 只是把标签 adata 贴到新对象上，不会反向修改原来持有该对象的地方（字典、列表、全局变量等）
+# %%
+for key, adata in ann_dic.items():
+    check_3_QC_covariates(project_name, key, "1-2_after-filt", adata)
+# %%
+out_dir = Path(f"./{project_name}/1_base-filt-output")
+out_dir.mkdir(parents=True, exist_ok=True)
+for key, adata in ann_dic.items():
+    adata.write_h5ad(f"./{project_name}/1_base-filt-output/{key}.h5ad")
 
 # %%

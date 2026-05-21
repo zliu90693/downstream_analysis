@@ -1,5 +1,4 @@
 # %%
-
 import numpy as np
 import scanpy as sc
 import seaborn as sns
@@ -12,17 +11,12 @@ from scipy.io import mmwrite
 
 import pandas as pd
 import subprocess
-
-
-
 # %%
 
 # combined_h5ad = sc.read_h5ad("./Sheng_SA_2020_Hsal/3_concated-output/concat.h5ad")
 
 # %%
-
 # ----------------------------------- Shifted logarithm -----------------------------------
-
 def do_shift_log(
     adata: anndata.AnnData
 ) -> None:
@@ -125,41 +119,50 @@ def visualize_pearson(
     )
     axes[1].set_title("Analytic Pearson residuals")
     plt.show()
-    
+
 # %%
-
+# ------------------------------------------------------------------------------------------------------
+# --------------------------------------------- Pipeline -----------------------------------------------
+# ------------------------------------------------------------------------------------------------------
+# %%
 # ---------------------------------------- Harpegnathos venator ----------------------------------------
-
 project_name = "Sheng_SA_2020_Hsal"
 combined_h5ad = sc.read_h5ad(f"./{project_name}/3_concated-output/concat.h5ad")
-
 # %%
-
 do_shift_log(combined_h5ad)
 visualize_shift_log(combined_h5ad)
-
 # %%
-
 pre_scran(project_name, combined_h5ad)
-
 # %%
-
 do_scran(project_name) # Use rm_ambient_doublet environment!!!
-
 # %%
-
 combine_scran_output(project_name, combined_h5ad)
-
 # %%
-
 visualize_scran(combined_h5ad)
-
 # %%
-
 do_pearson(combined_h5ad)
 visualize_pearson(combined_h5ad)
 # %%
-
 combined_h5ad.write_h5ad(f"./{project_name}/4_normalize-output/concat.h5ad")
+# %%
 
 # %%
+# ---------------------------------------- Apis cerana ----------------------------------------
+project_name = "Acer"
+combined_h5ad = sc.read_h5ad(f"./{project_name}/3_concated-output/concat.h5ad")
+# %%
+do_shift_log(combined_h5ad)
+visualize_shift_log(combined_h5ad)
+# %%
+pre_scran(project_name, combined_h5ad)
+# %%
+do_scran(project_name) # Use rm_ambient_doublet environment!!!
+# %%
+combine_scran_output(project_name, combined_h5ad)
+# %%
+visualize_scran(combined_h5ad)
+# %%
+do_pearson(combined_h5ad)
+visualize_pearson(combined_h5ad)
+# %%
+combined_h5ad.write_h5ad(f"./{project_name}/4_normalize-output/concat.h5ad")
