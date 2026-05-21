@@ -40,8 +40,9 @@ def run_umap(
     adata: anndata.AnnData,
     neo_key: str,
     use_rep: str = "X_pca",
+    n_pcs: int = None,
 ) -> None:
-    sc.pp.neighbors(adata, use_rep=use_rep, key_added=f"neighbors_{neo_key}")
+    sc.pp.neighbors(adata, use_rep=use_rep, key_added=f"neighbors_{neo_key}", n_pcs=n_pcs)
     sc.tl.umap(adata, neighbors_key=f"neighbors_{neo_key}")
     adata.obsm[f"X_umap_{neo_key}"] = adata.obsm.pop("X_umap")
     adata.uns[f"umap_{neo_key}"] = adata.uns.pop("umap")
