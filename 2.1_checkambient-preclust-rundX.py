@@ -4,9 +4,7 @@ import scanpy as sc
 from pathlib import Path
 from concurrent.futures import ProcessPoolExecutor # 用多进程!! hdf5库和多线程配合极易引发死锁!!!
 import subprocess
-
 # %%
-
 def _read_single_h5ad(file_path: str) -> tuple[str, anndata.AnnData]: #_worker 函数, 返回 (文件名, AnnData)
     name = Path(file_path).stem
     adata = sc.read_h5ad(file_path)
@@ -33,9 +31,7 @@ def load_h5_parallel(
     with ProcessPoolExecutor(max_workers=max_workers) as executor:
         results = executor.map(_read_single_h5ad, files)
         return dict(results)
-
 # %%
-
 def preprocess_adata(adata: anndata.AnnData) -> None:
     """仅执行一次的数据预处理与降维"""
     if "X_pca" in adata.obsm:
@@ -55,7 +51,6 @@ def run_leiden(adata: anndata.AnnData, reso: float = 0.5) -> None:
     sc.tl.leiden(adata, key_added=f"leiden_{reso:.2f}", resolution=reso)
     n_clusters = adata.obs[f"leiden_{reso:.2f}"].nunique()
     print(f"Clustering Complete: {n_clusters} clusters, resolution: {reso} (Recommended range: 10~30)")
-
 # %%
 def run_decontX(
     project_name: str,
@@ -70,7 +65,7 @@ def run_decontX(
 # ------------------------------------------------------------------------------------------------------
 # --------------------------------------------- Pipeline -----------------------------------------------
 # ------------------------------------------------------------------------------------------------------
-
+# %%
 # ---------------------------------------- Harpegnathos venator ----------------------------------------
 
 project_name = "Sheng_SA_2020_Hsal"
@@ -85,7 +80,6 @@ for key, adata in h5ad_dic.items():
 for key, adata in h5ad_dic.items():
     adata.write_h5ad(f"./{project_name}/2_checkambient-output/{key}.h5ad")
 # %%
-
 # ---------------------------------------- Apis cerana ----------------------------------------
 # %%
 project_name = "Acer"
@@ -102,5 +96,19 @@ for key, adata in h5ad_dic.items():
 # %%
 run_decontX(project_name, cluster_col="leiden_0.20")
 # %%
-
+# ---------------------------------------- Apis cerana ----------------------------------------
+# %%
+project_name = "Zhang_iScience_2022_Amel"
+h5ad_dic = load_h5_parallel(project_name, dir_name="1_base-filt-output", suffix=".h5ad", max_workers=8)
+# %%
+for key, adata in h5ad_dic.items():
+    print(key)
+    preprocess_adata(adata)
+    for reso in [0.2, 0.25, 0.5, 0.8, 1.0]:
+        run_leiden(adata, reso)
+# %%
+for key, adata in h5ad_dic.items():
+    adata.write_h5ad(f"./{project_name}/2_checkambient-output/{key}.h5ad")
+# %%
+run_decontX(project_name, cluster_col="leiden_0.50")
 # %%

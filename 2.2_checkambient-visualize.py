@@ -7,7 +7,6 @@ from concurrent.futures import ProcessPoolExecutor # 用多进程!! hdf5库和�
 
 
 # %%
-
 def _read_single_h5ad(file_path: str) -> tuple[str, anndata.AnnData]: #_worker 函数, 返回 (文件名, AnnData)
     name = Path(file_path).stem
     adata = sc.read_h5ad(file_path)
@@ -64,15 +63,31 @@ def visualize(
     print(adata.obs["decontX_contamination"].describe())
 
 # %%
+# ------------------------------------------------------------------------------------------------------
+# --------------------------------------------- Pipeline -----------------------------------------------
+# ------------------------------------------------------------------------------------------------------
 
+# %%
 # ---------------------------------------- Harpegnathos venator ----------------------------------------
-
+# %%
 project_name = "Sheng_SA_2020_Hsal"
-Hsal_h5ad_dic = load_h5_parallel(project_name, dir_name="2_checkambient-output", suffix="_decontX.h5ad", max_workers=8)
-
+h5ad_dic = load_h5_parallel(project_name, dir_name="2_checkambient-output", suffix="_decontX.h5ad", max_workers=8)
 # %%
-
-for key, adata in Hsal_h5ad_dic.items():
+for key, adata in h5ad_dic.items():
     visualize(project_name, key, adata)
-
 # %%
+# ---------------------------------------- Apis cerana ----------------------------------------
+# %%
+project_name = "Acer"
+h5ad_dic = load_h5_parallel(project_name, dir_name="2_checkambient-output", suffix="_decontX.h5ad", max_workers=8)
+# %%
+for key, adata in h5ad_dic.items():
+    visualize(project_name, key, adata)
+# %%
+# ---------------------------------------- Apis mellifera ----------------------------------------
+# %%
+project_name = "Zhang_iScience_2022_Amel"
+h5ad_dic = load_h5_parallel(project_name, dir_name="2_checkambient-output", suffix="_decontX.h5ad", max_workers=8)
+# %%
+for key, adata in h5ad_dic.items():
+    visualize(project_name, key, adata)

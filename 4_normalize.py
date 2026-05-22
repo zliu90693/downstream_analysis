@@ -166,4 +166,24 @@ do_pearson(combined_h5ad)
 visualize_pearson(combined_h5ad)
 # %%
 combined_h5ad.write_h5ad(f"./{project_name}/4_normalize-output/concat.h5ad")
+
 # %%
+# ---------------------------------------- Apis mellifera ----------------------------------------
+project_name = "Zhang_iScience_2022_Amel"
+combined_h5ad = sc.read_h5ad(f"./{project_name}/3_concated-output/concat.h5ad")
+# %%
+do_shift_log(combined_h5ad)
+visualize_shift_log(combined_h5ad)
+# %%
+pre_scran(project_name, combined_h5ad)
+# %%
+do_scran(project_name) # Use rm_ambient_doublet environment!!!
+# %%
+combine_scran_output(project_name, combined_h5ad)
+# %%
+visualize_scran(combined_h5ad)
+# %%
+do_pearson(combined_h5ad)
+visualize_pearson(combined_h5ad)
+# %%
+combined_h5ad.write_h5ad(f"./{project_name}/4_normalize-output/concat.h5ad")
