@@ -97,9 +97,10 @@ for key, adata in h5ad_dic.items():
     for reso in [0.2, 0.25, 0.5, 0.8, 1.0]:
         run_leiden(adata, reso)
 # %%
-run_decontX(project_name, cluster_col="leiden_0.20")
-# %%
 for key, adata in h5ad_dic.items():
     adata.write_h5ad(f"./{project_name}/2_checkambient-output/{key}.h5ad")
+# %%
+run_decontX(project_name, cluster_col="leiden_0.20")
+# %%
 
 # %%

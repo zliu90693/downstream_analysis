@@ -1,4 +1,24 @@
 ```bash
+project_name="Zhang_iScience_2022_Amel"
+dirs=(
+    "1_base-filt-output"
+    "2_checkambient-output"
+    "3_concated-output"
+    "4_normalize-output"
+    "5_feature-selection-output"
+    "6_dim-reduction-output"
+    "7_cluster-output"
+    "figures"
+    "h5_from_fastq2matrix"
+    "metadata"
+)
+for dir in "${dirs[@]}"; do
+    mkdir -p "${project_name}/${dir}"
+    touch "${project_name}/${dir}/.gitkeep"
+done
+```
+
+```bash
 ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Zhang_iScience_2022_Amel/singlet-out/GSM5590453/GSM5590453_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis/Zhang_iScience_2022_Amel/h5_from_fastq2matrix/F1.h5"
 ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Zhang_iScience_2022_Amel/singlet-out/GSM5590454/GSM5590454_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis/Zhang_iScience_2022_Amel/h5_from_fastq2matrix/F2.h5"
 ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Zhang_iScience_2022_Amel/singlet-out/GSM5590455/GSM5590455_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis/Zhang_iScience_2022_Amel/h5_from_fastq2matrix/N1.h5"

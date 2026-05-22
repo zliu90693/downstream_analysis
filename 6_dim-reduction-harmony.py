@@ -229,3 +229,4 @@ visualize(combined_h5ad, basis="X_umap_harmony_pearson", color=["total_counts", 
 visualize(combined_h5ad, basis="X_umap_harmony_log1p", color=["total_counts", "pct_counts_mt", "batch"])
 # %%
 combined_h5ad.write(f"./{project_name}/6_dim-reduction-output/concat.h5ad")
+# %%
