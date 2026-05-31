@@ -22,8 +22,6 @@ def run_pca(
     adata.uns[f"pca_{neo_key}"] = adata.uns.pop("pca")
 
 
-# %%
-
 def run_tsne(
     adata: anndata.AnnData,
     neo_key: str,
@@ -34,7 +32,6 @@ def run_tsne(
     adata.uns[f"tsne_{neo_key}"] = adata.uns.pop("tsne")
 
 
-# %%
 
 def run_umap(
     adata: anndata.AnnData,
@@ -47,7 +44,6 @@ def run_umap(
     adata.obsm[f"X_umap_{neo_key}"] = adata.obsm.pop("X_umap")
     adata.uns[f"umap_{neo_key}"] = adata.uns.pop("umap")
 
-# %%
 
 # uns: 'neighbors*', 'umap'
 # obsm: 'X_umap'
@@ -78,7 +74,6 @@ Umap looks in ~anndata.AnnData.uns\ [neighbors_key] for neighbors settings and ~
 """
 
 
-# %%
 def run_harmony( # From https://github.com/slowkow/harmonypy/issues/49
     adata: anndata.AnnData,
     batch_key: str = "batch",
@@ -96,7 +91,6 @@ def run_harmony( # From https://github.com/slowkow/harmonypy/issues/49
     # sc.pp.neighbors(adata, use_rep='X_pca_harmony')
     # sc.tl.umap(adata)
 
-# %%
 
 def visualize(
     adata: anndata.AnnData,
