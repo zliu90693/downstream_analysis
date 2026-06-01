@@ -42,34 +42,27 @@ print(f"哑铃簇内 n_genes vs UMAP2: ρ={rho_umap2:+.3f}, p={p2:.2e}")
 def check_correlation(
     adata: anndata.AnnData,
     target_cluster: str,
-    res_cluster_key: str,
+    obs_cluster_key: str,
+    obsm_cluster_key: str,
     param2be_checked: str,
 ) -> None:
-    mask = adata.obs[res_cluster_key] == target_cluster
-    umap_coords = adata.obsm['X_umap_harmony_log1p'][mask]
-    n_genes = adata.obs.loc[mask, 'n_genes_by_counts']
-    n_genes = Amel_h5ad.obs.loc[mask, param2be_checked]
+    mask = adata.obs[obs_cluster_key] == target_cluster
+    umap_coords = adata.obsm[obsm_cluster_key][mask]
+    param = adata.obs.loc[mask, param2be_checked]
 
-    rho_umap1, p1 = spearmanr(umap_coords[:, 0], n_genes)
-    rho_umap2, p2 = spearmanr(umap_coords[:, 1], n_genes)
+    rho_umap1, p1 = spearmanr(umap_coords[:, 0], param)
+    rho_umap2, p2 = spearmanr(umap_coords[:, 1], param)
 
     print(f"{param2be_checked} vs UMAP1: ρ={rho_umap1:+.3f}, p={p1:.2e}")
     print(f"{param2be_checked} vs UMAP2: ρ={rho_umap2:+.3f}, p={p2:.2e}")
 # %%
 # ------------------------------------- 22 ------------------------------------
-check_correlation(
-    adata=Amel_h5ad,
-    target_cluster='22',
-    res_cluster_key='leiden_harmony_log1p_res0.50',
-    param2be_checked='n_genes_by_counts'
-)
-# n_genes_by_counts vs UMAP1: ρ=-0.919, p=0.00e+00
-# n_genes_by_counts vs UMAP2: ρ=-0.780, p=0.00e+00
 # %%
 check_correlation(
     adata=Amel_h5ad,
     target_cluster='22',
-    res_cluster_key='leiden_harmony_log1p_res0.50',
+    obs_cluster_key='leiden_harmony_log1p_res0.50',
+    obsm_cluster_key='X_umap_harmony_log1p',
     param2be_checked='log1p_n_genes_by_counts'
 )
 # log1p_n_genes_by_counts vs UMAP1: ρ=-0.919, p=0.00e+00
@@ -78,7 +71,8 @@ check_correlation(
 check_correlation(
     adata=Amel_h5ad,
     target_cluster='22',
-    res_cluster_key='leiden_harmony_log1p_res0.50',
+    obs_cluster_key='leiden_harmony_log1p_res0.50',
+    obsm_cluster_key='X_umap_harmony_log1p',
     param2be_checked='log1p_total_counts'
 )
 # log1p_total_counts vs UMAP1: ρ=-0.884, p=0.00e+00
@@ -87,7 +81,8 @@ check_correlation(
 check_correlation(
     adata=Amel_h5ad,
     target_cluster='22',
-    res_cluster_key='leiden_harmony_log1p_res0.50',
+    obs_cluster_key='leiden_harmony_log1p_res0.50',
+    obsm_cluster_key='X_umap_harmony_log1p',
     param2be_checked='batch'
 )
 # batch vs UMAP1: ρ=-0.041, p=3.28e-02
@@ -96,7 +91,8 @@ check_correlation(
 check_correlation(
     adata=Amel_h5ad,
     target_cluster='22',
-    res_cluster_key='leiden_harmony_log1p_res0.50',
+    obs_cluster_key='leiden_harmony_log1p_res0.50',
+    obsm_cluster_key='X_umap_harmony_log1p',
     param2be_checked='pct_counts_mt'
 )
 # pct_counts_mt vs UMAP1: ρ=+0.111, p=7.01e-09
@@ -105,7 +101,8 @@ check_correlation(
 check_correlation(
     adata=Amel_h5ad,
     target_cluster='22',
-    res_cluster_key='leiden_harmony_log1p_res0.50',
+    obs_cluster_key='leiden_harmony_log1p_res0.50',
+    obsm_cluster_key='X_umap_harmony_log1p',
     param2be_checked='size_factors'
 )
 # size_factors vs UMAP1: ρ=-0.923, p=0.00e+00
@@ -115,8 +112,9 @@ check_correlation(
 check_correlation(
     adata=Amel_h5ad,
     target_cluster='28',
-    res_cluster_key='leiden_harmony_log1p_res0.50',
-    param2be_checked='n_genes_by_counts'
+    obs_cluster_key='leiden_harmony_log1p_res0.50',
+    obsm_cluster_key='X_umap_harmony_log1p',
+    param2be_checked='log1p_n_genes_by_counts'
 )
 # n_genes_by_counts vs UMAP1: ρ=+0.776, p=0.00e+00
 # n_genes_by_counts vs UMAP2: ρ=+0.122, p=1.18e-24
@@ -124,7 +122,8 @@ check_correlation(
 check_correlation(
     adata=Amel_h5ad,
     target_cluster='28',
-    res_cluster_key='leiden_harmony_log1p_res0.50',
+    obs_cluster_key='leiden_harmony_log1p_res0.50',
+    obsm_cluster_key='X_umap_harmony_log1p',
     param2be_checked='log1p_total_counts'
 )
 # log1p_total_counts vs UMAP1: ρ=+0.775, p=0.00e+00
@@ -133,7 +132,8 @@ check_correlation(
 check_correlation(
     adata=Amel_h5ad,
     target_cluster='28',
-    res_cluster_key='leiden_harmony_log1p_res0.50',
+    obs_cluster_key='leiden_harmony_log1p_res0.50',
+    obsm_cluster_key='X_umap_harmony_log1p',
     param2be_checked='batch'
 )
 # batch vs UMAP1: ρ=-0.046, p=1.23e-04
@@ -142,7 +142,8 @@ check_correlation(
 check_correlation(
     adata=Amel_h5ad,
     target_cluster='28',
-    res_cluster_key='leiden_harmony_log1p_res0.50',
+    obs_cluster_key='leiden_harmony_log1p_res0.50',
+    obsm_cluster_key='X_umap_harmony_log1p',
     param2be_checked='pct_counts_mt'
 )
 # pct_counts_mt vs UMAP1: ρ=-0.104, p=4.27e-18
@@ -151,9 +152,61 @@ check_correlation(
 check_correlation(
     adata=Amel_h5ad,
     target_cluster='28',
-    res_cluster_key='leiden_harmony_log1p_res0.50',
+    obs_cluster_key='leiden_harmony_log1p_res0.50',
+    obsm_cluster_key='X_umap_harmony_log1p',
     param2be_checked='size_factors'
 )
 # size_factors vs UMAP1: ρ=+0.731, p=0.00e+00
 # size_factors vs UMAP2: ρ=+0.136, p=3.87e-30
+# %%
+# ------------------------------------- 12 ------------------------------------
+check_correlation(
+    adata=Amel_h5ad,
+    target_cluster='12',
+    obs_cluster_key='leiden_harmony_log1p_res0.50',
+    obsm_cluster_key='X_umap_harmony_log1p',
+    param2be_checked='log1p_n_genes_by_counts'
+)
+# log1p_n_genes_by_counts vs UMAP1: ρ=+0.829, p=0.00e+00
+# log1p_n_genes_by_counts vs UMAP2: ρ=-0.895, p=0.00e+00
+# %%
+check_correlation(
+    adata=Amel_h5ad,
+    target_cluster='12',
+    obs_cluster_key='leiden_harmony_log1p_res0.50',
+    obsm_cluster_key='X_umap_harmony_log1p',
+    param2be_checked='log1p_total_counts'
+)
+# log1p_total_counts vs UMAP1: ρ=+0.787, p=0.00e+00
+# log1p_total_counts vs UMAP2: ρ=-0.856, p=0.00e+00
+# %%
+check_correlation(
+    adata=Amel_h5ad,
+    target_cluster='12',
+    obs_cluster_key='leiden_harmony_log1p_res0.50',
+    obsm_cluster_key='X_umap_harmony_log1p',
+    param2be_checked='batch'
+)
+# batch vs UMAP1: ρ=+0.028, p=1.91e-01
+# batch vs UMAP2: ρ=-0.029, p=1.78e-01
+# %%
+check_correlation(
+    adata=Amel_h5ad,
+    target_cluster='12',
+    obs_cluster_key='leiden_harmony_log1p_res0.50',
+    obsm_cluster_key='X_umap_harmony_log1p',
+    param2be_checked='pct_counts_mt'
+)
+# pct_counts_mt vs UMAP1: ρ=-0.407, p=3.71e-87
+# pct_counts_mt vs UMAP2: ρ=+0.352, p=3.95e-64
+# %%
+check_correlation(
+    adata=Amel_h5ad,
+    target_cluster='12',
+    obs_cluster_key='leiden_harmony_log1p_res0.50',
+    obsm_cluster_key='X_umap_harmony_log1p',
+    param2be_checked='size_factors'
+)
+# size_factors vs UMAP1: ρ=+0.877, p=0.00e+00
+# size_factors vs UMAP2: ρ=-0.932, p=0.00e+00
 # %%
