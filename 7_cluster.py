@@ -29,18 +29,19 @@ def run_leiden(
         flavor=flavor, 
         n_iterations=n_iterations
     )
-# %%
-def visualize(
-    adata: anndata.AnnData,
-    basis: str,
-    color,
-) -> None:
-    sc.pl.embedding(
-        adata,
-        basis=basis,
-        color=color,
-        legend_loc="on data"
-    )
+
+# def visualize(
+#     adata: anndata.AnnData,
+#     basis: str,
+#     color,
+#     legend_loc: str = None,
+# ) -> None:
+#     sc.pl.embedding(
+#         adata,
+#         basis=basis,
+#         color=color,
+#         legend_loc=legend_loc
+#     )
 # %%
 # ------------------------------------------------------------------------------------------------------
 # --------------------------------------------- Pipeline -----------------------------------------------
@@ -60,9 +61,9 @@ for reso in [0.25, 0.5, 1.0]:
     run_leiden(combined_h5ad, neo_key="harmony_pearson", neighbors_key="neighbors_harmony_pearson", resolution=reso, flavor="igraph", n_iterations=2)
     run_leiden(combined_h5ad, neo_key="harmony_log1p", neighbors_key="neighbors_harmony_log1p", resolution=reso, flavor="igraph", n_iterations=2)
 # %%
-visualize(combined_h5ad, basis="X_umap_harmony_scran", color=["leiden_harmony_scran_res0.25", "leiden_harmony_scran_res0.50", "leiden_harmony_scran_res1.00"])
-visualize(combined_h5ad, basis="X_umap_harmony_pearson", color=["leiden_harmony_pearson_res0.25", "leiden_harmony_pearson_res0.50", "leiden_harmony_pearson_res1.00"])
-visualize(combined_h5ad, basis="X_umap_harmony_log1p", color=["leiden_harmony_log1p_res0.25", "leiden_harmony_log1p_res0.50", "leiden_harmony_log1p_res1.00"])
+sc.pl.embedding(combined_h5ad, basis="X_umap_harmony_scran", color=["leiden_harmony_scran_res0.25", "leiden_harmony_scran_res0.50", "leiden_harmony_scran_res1.00"])
+sc.pl.embedding(combined_h5ad, basis="X_umap_harmony_pearson", color=["leiden_harmony_pearson_res0.25", "leiden_harmony_pearson_res0.50", "leiden_harmony_pearson_res1.00"])
+sc.pl.embedding(combined_h5ad, basis="X_umap_harmony_log1p", color=["leiden_harmony_log1p_res0.25", "leiden_harmony_log1p_res0.50", "leiden_harmony_log1p_res1.00"])
 # %%
 combined_h5ad.write(f"./{project_name}/7_cluster-output/concat.h5ad")
 # %%
@@ -80,9 +81,9 @@ for reso in [0.25, 0.5, 1.0]:
     run_leiden(combined_h5ad, neo_key="harmony_pearson", neighbors_key="neighbors_harmony_pearson", resolution=reso, flavor="igraph", n_iterations=2)
     run_leiden(combined_h5ad, neo_key="harmony_log1p", neighbors_key="neighbors_harmony_log1p", resolution=reso, flavor="igraph", n_iterations=2)
 # %%
-visualize(combined_h5ad, basis="X_umap_harmony_scran", color=["leiden_harmony_scran_res0.25", "leiden_harmony_scran_res0.50", "leiden_harmony_scran_res1.00"])
-visualize(combined_h5ad, basis="X_umap_harmony_pearson", color=["leiden_harmony_pearson_res0.25", "leiden_harmony_pearson_res0.50", "leiden_harmony_pearson_res1.00"])
-visualize(combined_h5ad, basis="X_umap_harmony_log1p", color=["leiden_harmony_log1p_res0.25", "leiden_harmony_log1p_res0.50", "leiden_harmony_log1p_res1.00"])
+sc.pl.embedding(combined_h5ad, basis="X_umap_harmony_scran", color=["leiden_harmony_scran_res0.25", "leiden_harmony_scran_res0.50", "leiden_harmony_scran_res1.00"])
+sc.pl.embedding(combined_h5ad, basis="X_umap_harmony_pearson", color=["leiden_harmony_pearson_res0.25", "leiden_harmony_pearson_res0.50", "leiden_harmony_pearson_res1.00"])
+sc.pl.embedding(combined_h5ad, basis="X_umap_harmony_log1p", color=["leiden_harmony_log1p_res0.25", "leiden_harmony_log1p_res0.50", "leiden_harmony_log1p_res1.00"])
 # %%
 combined_h5ad.write(f"./{project_name}/7_cluster-output/concat.h5ad")
 # %%
@@ -100,9 +101,9 @@ for reso in [0.25, 0.5, 1.0]:
     run_leiden(combined_h5ad, neo_key="harmony_pearson", neighbors_key="neighbors_harmony_pearson", resolution=reso, flavor="igraph", n_iterations=2)
     run_leiden(combined_h5ad, neo_key="harmony_log1p", neighbors_key="neighbors_harmony_log1p", resolution=reso, flavor="igraph", n_iterations=2)
 # %%
-visualize(combined_h5ad, basis="X_umap_harmony_scran", color=["leiden_harmony_scran_res0.25", "leiden_harmony_scran_res0.50", "leiden_harmony_scran_res1.00"])
-visualize(combined_h5ad, basis="X_umap_harmony_pearson", color=["leiden_harmony_pearson_res0.25", "leiden_harmony_pearson_res0.50", "leiden_harmony_pearson_res1.00"])
-visualize(combined_h5ad, basis="X_umap_harmony_log1p", color=["leiden_harmony_log1p_res0.25", "leiden_harmony_log1p_res0.50", "leiden_harmony_log1p_res1.00"])
+sc.pl.embedding(combined_h5ad, basis="X_umap_harmony_scran", color=["leiden_harmony_scran_res0.25", "leiden_harmony_scran_res0.50", "leiden_harmony_scran_res1.00"])
+sc.pl.embedding(combined_h5ad, basis="X_umap_harmony_pearson", color=["leiden_harmony_pearson_res0.25", "leiden_harmony_pearson_res0.50", "leiden_harmony_pearson_res1.00"])
+sc.pl.embedding(combined_h5ad, basis="X_umap_harmony_log1p", color=["leiden_harmony_log1p_res0.25", "leiden_harmony_log1p_res0.50", "leiden_harmony_log1p_res1.00"])
 # %%
 combined_h5ad.write(f"./{project_name}/7_cluster-output/concat.h5ad")
 
