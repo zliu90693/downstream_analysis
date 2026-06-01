@@ -114,7 +114,7 @@ def visualize(
 # ---------------------------------------- Harpegnathos venator ----------------------------------------
 
 project_name = "Sheng_SA_2020_Hsal"
-combined_h5ad = sc.read_h5ad(f"./{project_name}/5_feature-selection-output/concat.h5ad")
+combined_h5ad = sc.read_h5ad(f"./{project_name}/data/5_feature-selection-output/concat.h5ad")
 # %%
 run_pca(combined_h5ad, layer="scran_normalization", neo_key="scran")
 run_pca(combined_h5ad, layer="analytic_pearson_residuals", neo_key="pearson")
@@ -165,13 +165,13 @@ visualize(combined_h5ad, basis="X_umap_harmony_scran", color=["total_counts", "p
 visualize(combined_h5ad, basis="X_umap_harmony_pearson", color=["total_counts", "pct_counts_mt", "batch"])
 visualize(combined_h5ad, basis="X_umap_harmony_log1p", color=["total_counts", "pct_counts_mt", "batch"])
 # %%
-combined_h5ad.write(f"./{project_name}/6_dim-reduction-output/concat.h5ad")
+combined_h5ad.write(f"./{project_name}/data/6_dim-reduction-output/concat.h5ad")
 # %%
 # ---------------------------------------- Apis cerana ----------------------------------------
 # %%
 
 project_name = "Acer"
-combined_h5ad = sc.read_h5ad(f"./{project_name}/5_feature-selection-output/concat.h5ad")
+combined_h5ad = sc.read_h5ad(f"./{project_name}/data/5_feature-selection-output/concat.h5ad")
 # %%
 run_pca(combined_h5ad, layer="scran_normalization", neo_key="scran")
 run_pca(combined_h5ad, layer="analytic_pearson_residuals", neo_key="pearson")
@@ -222,13 +222,13 @@ visualize(combined_h5ad, basis="X_umap_harmony_scran", color=["total_counts", "p
 visualize(combined_h5ad, basis="X_umap_harmony_pearson", color=["total_counts", "pct_counts_mt", "batch"])
 visualize(combined_h5ad, basis="X_umap_harmony_log1p", color=["total_counts", "pct_counts_mt", "batch"])
 # %%
-combined_h5ad.write(f"./{project_name}/6_dim-reduction-output/concat.h5ad")
+combined_h5ad.write(f"./{project_name}/data/6_dim-reduction-output/concat.h5ad")
 # %%
 # ---------------------------------------- Apis mellifera ----------------------------------------
 # %%
 
 project_name = "Zhang_iScience_2022_Amel"
-combined_h5ad = sc.read_h5ad(f"./{project_name}/5_feature-selection-output/concat.h5ad")
+combined_h5ad = sc.read_h5ad(f"./{project_name}/data/5_feature-selection-output/concat.h5ad")
 # %%
 run_pca(combined_h5ad, layer="scran_normalization", neo_key="scran")
 run_pca(combined_h5ad, layer="analytic_pearson_residuals", neo_key="pearson")
@@ -279,5 +279,5 @@ visualize(combined_h5ad, basis="X_umap_harmony_scran", color=["total_counts", "p
 visualize(combined_h5ad, basis="X_umap_harmony_pearson", color=["total_counts", "pct_counts_mt", "batch"])
 visualize(combined_h5ad, basis="X_umap_harmony_log1p", color=["total_counts", "pct_counts_mt", "batch"])
 
-combined_h5ad.write(f"./{project_name}/6_dim-reduction-output/concat.h5ad")
+combined_h5ad.write(f"./{project_name}/data/6_dim-reduction-output/concat.h5ad")
 # %%

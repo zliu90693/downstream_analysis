@@ -17,7 +17,7 @@ cluster_col <- args[2]
 # %%
 load_h5ad_parallel <- function(project_name, suffix = ".h5ad", max_workers = 8) {
     # 1. 构建目录路径 & 获取文件列表
-    directory <- file.path(project_name, "2_checkambient-output")
+    directory <- file.path(project_name, "data", "2_checkambient-output")
     files <- list.files(directory, pattern = paste0("\\", suffix, "$"), full.names = TRUE)
     
     if (length(files) == 0) stop("No matching files found. Please check the path or file extension.")
@@ -113,7 +113,7 @@ lapply(decont_dic, function(sce) {
 # %%
 deconth5ad_dic <- lapply(decont_dic, SCE_2_Anndata)
 # %%
-output_dir <- file.path(project_name, "2_checkambient-output")
+output_dir <- file.path(project_name, "data", "2_checkambient-output")
 for (key in names(deconth5ad_dic)) {
     adata <- deconth5ad_dic[[key]]
     filename <- file.path(output_dir, paste0(key, "_decontX.h5ad"))

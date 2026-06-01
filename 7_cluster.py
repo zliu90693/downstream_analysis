@@ -50,7 +50,7 @@ def run_leiden(
 # %%
 # ---------------------------------------- Harpegnathos venator ----------------------------------------
 project_name = "Sheng_SA_2020_Hsal"
-combined_h5ad = sc.read_h5ad(f"./{project_name}/6_dim-reduction-output/concat.h5ad")
+combined_h5ad = sc.read_h5ad(f"./{project_name}/data/6_dim-reduction-output/concat.h5ad")
 # %%
 run_umap(combined_h5ad, use_rep="X_pca_harmony_scran", neo_key="harmony_scran", n_pcs=30)
 run_umap(combined_h5ad, use_rep="X_pca_harmony_pearson", neo_key="harmony_pearson", n_pcs=30)
@@ -65,12 +65,12 @@ sc.pl.embedding(combined_h5ad, basis="X_umap_harmony_scran", color=["leiden_harm
 sc.pl.embedding(combined_h5ad, basis="X_umap_harmony_pearson", color=["leiden_harmony_pearson_res0.25", "leiden_harmony_pearson_res0.50", "leiden_harmony_pearson_res1.00"])
 sc.pl.embedding(combined_h5ad, basis="X_umap_harmony_log1p", color=["leiden_harmony_log1p_res0.25", "leiden_harmony_log1p_res0.50", "leiden_harmony_log1p_res1.00"])
 # %%
-combined_h5ad.write(f"./{project_name}/7_cluster-output/concat.h5ad")
+combined_h5ad.write(f"./{project_name}/data/7_cluster-output/concat.h5ad")
 # %%
 # ---------------------------------------- Apis cerana ----------------------------------------
 # %%
 project_name = "Acer"
-combined_h5ad = sc.read_h5ad(f"./{project_name}/6_dim-reduction-output/concat.h5ad")
+combined_h5ad = sc.read_h5ad(f"./{project_name}/data/6_dim-reduction-output/concat.h5ad")
 # %%
 run_umap(combined_h5ad, use_rep="X_pca_harmony_scran", neo_key="harmony_scran", n_pcs=30)
 run_umap(combined_h5ad, use_rep="X_pca_harmony_pearson", neo_key="harmony_pearson", n_pcs=30)
@@ -85,12 +85,12 @@ sc.pl.embedding(combined_h5ad, basis="X_umap_harmony_scran", color=["leiden_harm
 sc.pl.embedding(combined_h5ad, basis="X_umap_harmony_pearson", color=["leiden_harmony_pearson_res0.25", "leiden_harmony_pearson_res0.50", "leiden_harmony_pearson_res1.00"])
 sc.pl.embedding(combined_h5ad, basis="X_umap_harmony_log1p", color=["leiden_harmony_log1p_res0.25", "leiden_harmony_log1p_res0.50", "leiden_harmony_log1p_res1.00"])
 # %%
-combined_h5ad.write(f"./{project_name}/7_cluster-output/concat.h5ad")
+combined_h5ad.write(f"./{project_name}/data/7_cluster-output/concat.h5ad")
 # %%
 # ---------------------------------------- Apis mellifera ----------------------------------------
 # %%
 project_name = "Zhang_iScience_2022_Amel"
-combined_h5ad = sc.read_h5ad(f"./{project_name}/6_dim-reduction-output/concat.h5ad")
+combined_h5ad = sc.read_h5ad(f"./{project_name}/data/6_dim-reduction-output/concat.h5ad")
 # %%
 run_umap(combined_h5ad, use_rep="X_pca_harmony_scran", neo_key="harmony_scran", n_pcs=30)
 run_umap(combined_h5ad, use_rep="X_pca_harmony_pearson", neo_key="harmony_pearson", n_pcs=30)
@@ -105,6 +105,6 @@ sc.pl.embedding(combined_h5ad, basis="X_umap_harmony_scran", color=["leiden_harm
 sc.pl.embedding(combined_h5ad, basis="X_umap_harmony_pearson", color=["leiden_harmony_pearson_res0.25", "leiden_harmony_pearson_res0.50", "leiden_harmony_pearson_res1.00"])
 sc.pl.embedding(combined_h5ad, basis="X_umap_harmony_log1p", color=["leiden_harmony_log1p_res0.25", "leiden_harmony_log1p_res0.50", "leiden_harmony_log1p_res1.00"])
 # %%
-combined_h5ad.write(f"./{project_name}/7_cluster-output/concat.h5ad")
+combined_h5ad.write(f"./{project_name}/data/7_cluster-output/concat.h5ad")
 
 # %%

@@ -38,7 +38,6 @@ def load_h5_parallel(
         results = executor.map(_read_single, files)
         return dict(results)
 
-# %%
 def add_mito(
     project_name: str, 
     adata: anndata.AnnData,
@@ -86,7 +85,6 @@ def check_3_QC_covariates(
     plt.gcf().savefig(out_dir / f"{file_name}_scatter.png", dpi=300, bbox_inches='tight')
     plt.close()
 
-# %%
 
 def _is_outlier(
     adata: anndata.AnnData,
@@ -132,7 +130,7 @@ def filter_outliers(adata: anndata.AnnData) -> anndata.AnnData:
 
 # ---------------------------------------- Harpegnathos venator ----------------------------------------
 project_name = "Sheng_SA_2020_Hsal"
-ann_dic = load_h5_parallel(project_name, dir_name="h5_from_fastq2matrix", suffix=".h5", max_workers=8)
+ann_dic = load_h5_parallel(project_name, dir_name="./data/0_h5_from_fastq2matrix", suffix=".h5", max_workers=8)
 # %%
 for key, adata in ann_dic.items():
     add_mito(project_name, adata)
@@ -150,17 +148,17 @@ for key, adata in ann_dic.items():
 for key, adata in ann_dic.items():
     check_3_QC_covariates(project_name, key, "1-2_after-filt", adata)
 # %%
-out_dir = Path(f"./{project_name}/1_base-filt-output")
+out_dir = Path(f"./{project_name}/data/1_base-filt-output")
 out_dir.mkdir(parents=True, exist_ok=True)
 for key, adata in ann_dic.items():
-    adata.write_h5ad(f"./{project_name}/1_base-filt-output/{key}.h5ad")
+    adata.write_h5ad(f"./{project_name}/data/1_base-filt-output/{key}.h5ad")
 
 # %%
 
 # ---------------------------------------- Apis cerana ----------------------------------------
 # %%
 project_name = "Acer"
-ann_dic = load_h5_parallel(project_name, dir_name="h5_from_fastq2matrix", suffix=".h5", max_workers=8)
+ann_dic = load_h5_parallel(project_name, dir_name="./data/0_h5_from_fastq2matrix", suffix=".h5", max_workers=8)
 # %%
 for key, adata in ann_dic.items():
     add_mito(project_name, adata)
@@ -178,16 +176,16 @@ for key, adata in ann_dic.items():
 for key, adata in ann_dic.items():
     check_3_QC_covariates(project_name, key, "1-2_after-filt", adata)
 # %%
-out_dir = Path(f"./{project_name}/1_base-filt-output")
+out_dir = Path(f"./{project_name}/data/1_base-filt-output")
 out_dir.mkdir(parents=True, exist_ok=True)
 for key, adata in ann_dic.items():
-    adata.write_h5ad(f"./{project_name}/1_base-filt-output/{key}.h5ad")
+    adata.write_h5ad(f"./{project_name}/data/1_base-filt-output/{key}.h5ad")
 
 # %%
 # ---------------------------------------- Apis mellifera ----------------------------------------
 # %%
 project_name = "Zhang_iScience_2022_Amel"
-ann_dic = load_h5_parallel(project_name, dir_name="h5_from_fastq2matrix", suffix=".h5", max_workers=8)
+ann_dic = load_h5_parallel(project_name, dir_name="./data/0_h5_from_fastq2matrix", suffix=".h5", max_workers=8)
 # %%
 for key, adata in ann_dic.items():
     add_mito(project_name, adata)
@@ -205,8 +203,8 @@ for key, adata in ann_dic.items():
 for key, adata in ann_dic.items():
     check_3_QC_covariates(project_name, key, "1-2_after-filt", adata)
 # %%
-out_dir = Path(f"./{project_name}/1_base-filt-output")
+out_dir = Path(f"./{project_name}/data/1_base-filt-output")
 out_dir.mkdir(parents=True, exist_ok=True)
 for key, adata in ann_dic.items():
-    adata.write_h5ad(f"./{project_name}/1_base-filt-output/{key}.h5ad")
+    adata.write_h5ad(f"./{project_name}/data/1_base-filt-output/{key}.h5ad")
 # %%
