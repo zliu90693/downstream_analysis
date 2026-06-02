@@ -25,15 +25,15 @@ done
 ```
 
 ```bash
-ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013383/GSM4013383_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013383.h5"
-ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013384/GSM4013384_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013384.h5"
-ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013385/GSM4013385_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013385.h5"
-ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013386/GSM4013386_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013386.h5"
-ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013387/GSM4013387_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013387.h5"
-ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013388/GSM4013388_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013388.h5"
-ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013389/GSM4013389_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013389.h5"
-ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013390/GSM4013390_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013390.h5"
-ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013391/GSM4013391_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013391.h5"
-ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013392/GSM4013392_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013392.h5"
-ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013393/GSM4013393_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013393.h5"
+ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013383/GSM4013383_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis_scVI/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013383.h5"
+ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013384/GSM4013384_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis_scVI/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013384.h5"
+ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013385/GSM4013385_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis_scVI/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013385.h5"
+ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013386/GSM4013386_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis_scVI/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013386.h5"
+ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013387/GSM4013387_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis_scVI/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013387.h5"
+ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013388/GSM4013388_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis_scVI/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013388.h5"
+ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013389/GSM4013389_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis_scVI/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013389.h5"
+ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013390/GSM4013390_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis_scVI/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013390.h5"
+ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013391/GSM4013391_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis_scVI/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013391.h5"
+ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013392/GSM4013392_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis_scVI/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013392.h5"
+ln -s "/home/liuzhiyu/Projects/neo_caste/fastq2matrix/Sheng_SA_2020_Hsal/singlet-out/GSM4013393/GSM4013393_singlet.h5" "/home/liuzhiyu/Projects/neo_caste/downstream_analysis_scVI/Sheng_SA_2020_Hsal/data/0_h5_from_fastq2matrix/GSM4013393.h5"
 ```
