@@ -187,6 +187,7 @@ sc.pl.embedding(Amel_h5ad, basis="X_umap_harmony_scran", color=["leiden_harmony_
 sc.pl.embedding(Amel_h5ad, basis="X_umap_harmony_scran", color=["log1p_total_counts", "log1p_n_genes_by_counts", "n_genes_by_counts", "pct_counts_mt", "batch", "size_factors"])
 # %%
 # ------------------------------------- 17 ------------------------------------
+# 17 是沿竖直方向(UMAP2)拉长并形成梭形的簇
 # %%
 check_correlation(
     adata=Amel_h5ad,
@@ -227,3 +228,47 @@ check_correlation(
 )
 # size_factors vs UMAP1: ρ=+0.408, p=8.07e-109
 # size_factors vs UMAP2: ρ=-0.881, p=0.00e+00
+# %%
+# ------------------------------------- 10 ------------------------------------
+# 10 是沿水平方向(UMAP1)拉长并形成梭形的簇
+# %%
+check_correlation(
+    adata=Amel_h5ad,
+    target_cluster='10',
+    obs_cluster_key='leiden_harmony_scran_res0.50',
+    obsm_cluster_key='X_umap_harmony_scran',
+    param2be_checked='log1p_n_genes_by_counts'
+)
+# log1p_n_genes_by_counts vs UMAP1: ρ=-0.731, p=4.92e-316
+# log1p_n_genes_by_counts vs UMAP2: ρ=+0.160, p=2.48e-12
+# %%
+check_correlation(
+    adata=Amel_h5ad,
+    target_cluster='10',
+    obs_cluster_key='leiden_harmony_scran_res0.50',
+    obsm_cluster_key='X_umap_harmony_scran',
+    param2be_checked='log1p_total_counts'
+)
+# log1p_total_counts vs UMAP1: ρ=-0.786, p=0.00e+00
+# log1p_total_counts vs UMAP2: ρ=+0.234, p=5.53e-25
+# %%
+check_correlation(
+    adata=Amel_h5ad,
+    target_cluster='10',
+    obs_cluster_key='leiden_harmony_scran_res0.50',
+    obsm_cluster_key='X_umap_harmony_scran',
+    param2be_checked='pct_counts_mt'
+)
+# pct_counts_mt vs UMAP1: ρ=+0.230, p=3.75e-24
+# pct_counts_mt vs UMAP2: ρ=-0.292, p=1.37e-38
+# %%
+check_correlation(
+    adata=Amel_h5ad,
+    target_cluster='10',
+    obs_cluster_key='leiden_harmony_scran_res0.50',
+    obsm_cluster_key='X_umap_harmony_scran',
+    param2be_checked='size_factors'
+)
+# size_factors vs UMAP1: ρ=-0.587, p=3.25e-175
+# size_factors vs UMAP2: ρ=+0.061, p=8.13e-03
+# %%
