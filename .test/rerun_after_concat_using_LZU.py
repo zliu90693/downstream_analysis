@@ -51,3 +51,9 @@ sc.tl.umap(Amel_h5ad)
 sc.tl.leiden(Amel_h5ad, resolution=0.25)
 fig = sc.pl.umap(Amel_h5ad, legend_loc="on data", color='leiden', return_fig=True)
 # %%
+Amel_h5ad.write_h5ad('../Zhang_iScience_2022_Amel/data/.test/Amel_all_concat_clustered.h5ad', compression='gzip')
+# %%
+
+# Amel_h5ad = sc.read_h5ad('../Zhang_iScience_2022_Amel/data/.test/Amel_all_concat.h5ad')
+# Amel_hvg = sc.read_h5ad('../Zhang_iScience_2022_Amel/data/.test/Amel_hvg_integration.h5ad')
+# %%
