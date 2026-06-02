@@ -1,6 +1,9 @@
 # 解决哑铃形问题: 
 # %%
 import scanpy as sc
+import numpy as np
+from scipy.stats import spearmanr, pearsonr
+import anndata
 # %%
 project_name = "Zhang_iScience_2022_Amel"
 Amel_h5ad = sc.read_h5ad(f"./{project_name}/data/7_cluster-output/concat.h5ad")
@@ -22,10 +25,6 @@ sc.pl.embedding(Amel_h5ad, basis="X_umap_harmony_log1p", color=["log1p_total_cou
 # 17 31
 # 28 40
 # 26 37
-# %%
-import numpy as np
-from scipy.stats import spearmanr, pearsonr
-import anndata
 # %%
 target_cluster = '22'  # 替换为您的哑铃簇ID
 mask = Amel_h5ad.obs['leiden_harmony_log1p_res0.50'] == target_cluster
@@ -180,3 +179,51 @@ check_correlation(
 # size_factors vs UMAP1: ρ=+0.877, p=0.00e+00
 # size_factors vs UMAP2: ρ=-0.932, p=0.00e+00
 # %%
+
+# 梭形问题
+# %%
+sc.pl.embedding(Amel_h5ad, basis="X_umap_harmony_scran", color=["leiden_harmony_scran_res0.25", "leiden_harmony_scran_res0.50", "leiden_harmony_scran_res1.00"], legend_loc="on data")
+# %%
+sc.pl.embedding(Amel_h5ad, basis="X_umap_harmony_scran", color=["log1p_total_counts", "log1p_n_genes_by_counts", "n_genes_by_counts", "pct_counts_mt", "batch", "size_factors"])
+# %%
+# ------------------------------------- 17 ------------------------------------
+# %%
+check_correlation(
+    adata=Amel_h5ad,
+    target_cluster='17',
+    obs_cluster_key='leiden_harmony_scran_res0.50',
+    obsm_cluster_key='X_umap_harmony_scran',
+    param2be_checked='log1p_n_genes_by_counts'
+)
+# log1p_n_genes_by_counts vs UMAP1: ρ=+0.336, p=2.39e-72
+# log1p_n_genes_by_counts vs UMAP2: ρ=-0.932, p=0.00e+00
+# %%
+check_correlation(
+    adata=Amel_h5ad,
+    target_cluster='17',
+    obs_cluster_key='leiden_harmony_scran_res0.50',
+    obsm_cluster_key='X_umap_harmony_scran',
+    param2be_checked='log1p_total_counts'
+)
+# log1p_total_counts vs UMAP1: ρ=+0.289, p=2.68e-53
+# log1p_total_counts vs UMAP2: ρ=-0.940, p=0.00e+00
+# %%
+check_correlation(
+    adata=Amel_h5ad,
+    target_cluster='17',
+    obs_cluster_key='leiden_harmony_scran_res0.50',
+    obsm_cluster_key='X_umap_harmony_scran',
+    param2be_checked='pct_counts_mt'
+)
+# pct_counts_mt vs UMAP1: ρ=+0.013, p=5.05e-01
+# pct_counts_mt vs UMAP2: ρ=+0.088, p=4.17e-06
+# %%
+check_correlation(
+    adata=Amel_h5ad,
+    target_cluster='17',
+    obs_cluster_key='leiden_harmony_scran_res0.50',
+    obsm_cluster_key='X_umap_harmony_scran',
+    param2be_checked='size_factors'
+)
+# size_factors vs UMAP1: ρ=+0.408, p=8.07e-109
+# size_factors vs UMAP2: ρ=-0.881, p=0.00e+00
