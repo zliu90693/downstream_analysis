@@ -1,14 +1,5 @@
 # %%
-import numpy as np
-import pandas as pd
-import seaborn as sns
-from scipy.stats import median_abs_deviation
-import anndata
-
-import scanpy as sc
 from pathlib import Path
-from concurrent.futures import ProcessPoolExecutor # 用多进程!! hdf5库和多线程配合极易引发死锁!!!
-import matplotlib.pyplot as plt
 from functions.base_filt import *
 # def check_3_QC_covariates(dir_name = "2_after_filt")
 
