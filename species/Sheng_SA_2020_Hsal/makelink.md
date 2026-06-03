@@ -1,21 +1,20 @@
 ```bash
-project_name="Sheng_SA_2020_Hsal"
+project_name="species/Sheng_SA_2020_Hsal"
 dirs=(
     "data"
     "data/0_h5_from_fastq2matrix"
     "data/1_base-filt-output"
     "data/2_checkambient-output"
     "data/3_concated-output"
-    "data/4_normalize-output"
-    "data/5_feature-selection-output"
-    "data/6_dim-reduction-output"
-    "data/7_cluster-output"
+    "data/4_feature-selection-output"
+    "data/5_scVI-output"
+    "data/6_cluster-output"
     "figures"
     "figures/1-1_before-filt"
     "figures/1-2_after-filt"
     "figures/2.3-1_checkambient"
-    "figures/6_dim-reduction"
-    "figures/7_cluster"
+    "figures/5_scVI"
+    "figures/6_cluster"
     "metadata"
 )
 for dir in "${dirs[@]}"; do
