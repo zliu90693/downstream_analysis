@@ -2,6 +2,7 @@
 # use envrionment scvi!!! see .env/scvi.yml
 import scvi
 import scanpy as sc
+import time
 # %%
 # ------------------------------------------------------------------------------------------------------
 # --------------------------------------------- Pipeline -----------------------------------------------
@@ -36,6 +37,7 @@ fig.savefig(f"./{project_name}/figures/5_scVI/umap_integrated_batch.pdf", bbox_i
 # %%
 combined_h5ad.write_h5ad(f"./{project_name}/data/5_scVI-output/concat.h5ad")
 hvg.write_h5ad(f"./{project_name}/data/5_scVI-output/hvg.h5ad")
+model.save(f"./{project_name}/model/scVI_model_{time.strftime('%Y%m%d')}", save_anndata=False)
 
 # %%
 # ---------------------------------------- Apis cerana ----------------------------------------
@@ -67,6 +69,7 @@ fig.savefig(f"./{project_name}/figures/5_scVI/umap_integrated_batch.pdf", bbox_i
 # %%
 combined_h5ad.write_h5ad(f"./{project_name}/data/5_scVI-output/concat.h5ad")
 hvg.write_h5ad(f"./{project_name}/data/5_scVI-output/hvg.h5ad")
+model.save(f"./{project_name}/model/scVI_model_{time.strftime('%Y%m%d')}", save_anndata=False)
 
 # %%
 # ---------------------------------------- Apis mellifera ----------------------------------------
@@ -99,3 +102,4 @@ fig.savefig(f"./{project_name}/figures/5_scVI/umap_integrated_batch.pdf", bbox_i
 # %%
 combined_h5ad.write_h5ad(f"./{project_name}/data/5_scVI-output/concat.h5ad")
 hvg.write_h5ad(f"./{project_name}/data/5_scVI-output/hvg.h5ad")
+model.save(f"./{project_name}/model/scVI_model_{time.strftime('%Y%m%d')}", save_anndata=False)

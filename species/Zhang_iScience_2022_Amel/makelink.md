@@ -16,6 +16,7 @@ dirs=(
     "figures/5_scVI"
     "figures/6_cluster"
     "metadata"
+    "model"
 )
 for dir in "${dirs[@]}"; do
     mkdir -p "${project_name}/${dir}"
