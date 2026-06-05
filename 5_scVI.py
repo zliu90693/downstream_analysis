@@ -13,7 +13,7 @@ project_name = "species/Sheng_SA_2020_Hsal"
 combined_h5ad = sc.read_h5ad(f"./{project_name}/data/4_feature-selection-output/concat.h5ad")
 # %%
 hvg = combined_h5ad[:, combined_h5ad.var['highly_variable']].copy()
-scvi.model.SCVI.setup_anndata(hvg, layer='counts', batch_key='batch')
+scvi.model.SCVI.setup_anndata(hvg, layer='counts', batch_key='batch') #! 指定使用原始计数矩阵, 是在这里指定的!!!
 
 model = scvi.model.SCVI(hvg)
 model.view_anndata_setup()

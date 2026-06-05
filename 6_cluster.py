@@ -26,7 +26,7 @@ for reso in [0.25, 0.50, 1.00]:
 
 combined_h5ad.write_h5ad(f"./{project_name}/data/6_cluster-output/concat.h5ad")
 
-# sc.tl.leiden使用的是 adata.obsp['connectivities'], 是 sc.pp.neighbors() 产生的
+#! sc.tl.leiden使用的是 adata.obsp['connectivities'], 是 sc.pp.neighbors() 产生的
 # %%
 # fig = sc.pl.umap(combined_h5ad, legend_loc="on data", color='leiden_res0.25', return_fig=True)
 # fig.savefig(f"./{project_name}/figures/5_scVI/umap_integrated_batch.pdf", bbox_inches='tight')
