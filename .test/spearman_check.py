@@ -345,19 +345,20 @@ Amel_pearson_50_df = pd.read_csv("./metadata/Amel_pearson_reso0.50.csv")
 visualize_heat(make_mask(do_fdr_bh(Amel_pearson_50_df)), "Amel_pearson_50")
 # %%
 Acer_log1p_50_df = pd.read_csv("./metadata/Acer_log1p_reso0.50.csv")
-visualize_heat(make_mask(do_fdr_bh(Acer_log1p_50_df)), "Acer_log1p_50_df")
+visualize_heat(make_mask(do_fdr_bh(Acer_log1p_50_df)), "Acer_log1p_50")
 # %%
 Acer_scran_50_df = pd.read_csv("./metadata/Acer_scran_reso0.50.csv")
-visualize_heat(make_mask(do_fdr_bh(Acer_scran_50_df)), "Acer_scran_50_df")
+visualize_heat(make_mask(do_fdr_bh(Acer_scran_50_df)), "Acer_scran_50")
 # %%
 Acer_pearson_50_df = pd.read_csv("./metadata/Acer_pearson_reso0.50.csv")
-visualize_heat(make_mask(do_fdr_bh(Acer_pearson_50_df)), "Acer_pearson_50_df")
+visualize_heat(make_mask(do_fdr_bh(Acer_pearson_50_df)), "Acer_pearson_50")
 # %%
 Hsal_log1p_50_df = pd.read_csv("./metadata/Hsal_log1p_reso0.50.csv")
-visualize_heat(make_mask(do_fdr_bh(Hsal_log1p_50_df)), "Hsal_log1p_50_df")
+visualize_heat(make_mask(do_fdr_bh(Hsal_log1p_50_df)), "Hsal_log1p_50")
 # %%
 Hsal_scran_50_df = pd.read_csv("./metadata/Hsal_scran_reso0.50.csv")
-visualize_heat(make_mask(do_fdr_bh(Hsal_scran_50_df)), "Hsal_scran_50_df")
+visualize_heat(make_mask(do_fdr_bh(Hsal_scran_50_df)), "Hsal_scran_50")
 # %%
 Hsal_pearson_50_df = pd.read_csv("./metadata/Hsal_pearson_reso0.50.csv")
-visualize_heat(make_mask(do_fdr_bh(Hsal_pearson_50_df)), "Hsal_pearson_50_df")
+visualize_heat(make_mask(do_fdr_bh(Hsal_pearson_50_df)), "Hsal_pearson_50")
+# %%
