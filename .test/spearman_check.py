@@ -5,6 +5,8 @@ import anndata
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+from statsmodels.stats.multitest import multipletests
+import numpy as np
 # %%
 def check_cluster_spearman(
     adata: anndata.AnnData,
@@ -192,85 +194,170 @@ Acer_df.to_csv(f"./metadata/{Acer_name}")
 #! --------------------------------------- Analyse output csv ---------------------------------------
 #! --------------------------------------------------------------------------------------------------
 # %%
-def rho_heatmap(
+# def rho_heatmap(
+#     df: pd.DataFrame,
+#     filename: str,
+# ) -> None:
+#     pivot_umap1 = df.pivot_table(
+#         index='cluster', 
+#         columns='param', 
+#         values='rho_umap1'
+#     )
+#     fig, ax = plt.subplots(figsize=(8, max(6, len(pivot_umap1) * 0.5)))
+#     sns.heatmap(
+#         pivot_umap1,
+#         cmap="RdBu_r",        # 红蓝双色：红=正相关，蓝=负相关
+#         center=0,             # 以0为中心对称着色
+#         vmin=-0.8, vmax=0.8,  # 固定色标范围，确保跨图可比
+#         annot=True,           # 在格子内显示数值
+#         fmt=".2f",            # 保留两位小数
+#         linewidths=0.5,       # 格子边框线
+#         linecolor='white',
+#         cbar_kws={'label': 'Spearman ρ (UMAP1)', 'shrink': 0.8},
+#         ax=ax
+#     )
+#     ax.set_title("UMAP1 vs Technical Covariates", fontsize=14)
+#     ax.set_ylabel("Leiden Cluster")
+#     ax.set_xlabel("Technical Covariate")
+#     plt.tight_layout()
+#     plt.savefig(f"./figures/spearman_heatmap_{filename}_UMAP1_rho.png", dpi=150, bbox_inches='tight')
+#     plt.show()
+
+#     pivot_umap2 = df.pivot_table(
+#         index='cluster', 
+#         columns='param', 
+#         values='rho_umap2'
+#     )
+#     fig, ax = plt.subplots(figsize=(8, max(6, len(pivot_umap2) * 0.5)))
+#     sns.heatmap(
+#         pivot_umap2,
+#         cmap="RdBu_r",        
+#         center=0,             
+#         vmin=-0.8, vmax=0.8,  
+#         annot=True,           
+#         fmt=".2f",            
+#         linewidths=0.5,       
+#         linecolor='white',
+#         cbar_kws={'label': 'Spearman ρ (UMAP2)', 'shrink': 0.8},
+#         ax=ax
+#     )
+
+#     ax.set_title("UMAP2 vs Technical Covariates", fontsize=14)
+#     ax.set_ylabel("Leiden Cluster")
+#     ax.set_xlabel("Technical Covariate")
+#     plt.tight_layout()
+#     plt.savefig(f"./figures/spearman_heatmap_{filename}_UMAP2_rho.png", dpi=150, bbox_inches='tight')
+#     plt.show()
+# # %%
+# Amel_log1p_50_df = pd.read_csv("./metadata/Amel_log1p_reso0.50.csv")
+# rho_heatmap(Amel_log1p_50_df, "Amel_log1p_50")
+# # %%
+# Amel_scran_50_df = pd.read_csv("./metadata/Amel_scran_reso0.50.csv")
+# rho_heatmap(Amel_scran_50_df, "Amel_scran_50")
+# # %%
+# Amel_pearson_50_df = pd.read_csv("./metadata/Amel_pearson_reso0.50.csv")
+# rho_heatmap(Amel_pearson_50_df, "Amel_pearson_50")
+# # %%
+# Acer_log1p_50_df = pd.read_csv("./metadata/Acer_log1p_reso0.50.csv")
+# rho_heatmap(Acer_log1p_50_df, "Acer_log1p_50")
+# # %%
+# Acer_scran_50_df = pd.read_csv("./metadata/Acer_scran_reso0.50.csv")
+# rho_heatmap(Acer_scran_50_df, "Acer_scran_50")
+# # %%
+# Acer_pearson_50_df = pd.read_csv("./metadata/Acer_pearson_reso0.50.csv")
+# rho_heatmap(Acer_pearson_50_df, "Acer_pearson_50")
+# # %%
+# Hsal_log1p_50_df = pd.read_csv("./metadata/Hsal_log1p_reso0.50.csv")
+# rho_heatmap(Hsal_log1p_50_df, "Hsal_log1p_50")
+# # %%
+# Hsal_scran_50_df = pd.read_csv("./metadata/Hsal_scran_reso0.50.csv")
+# rho_heatmap(Hsal_scran_50_df, "Hsal_scran_50")
+# # %%
+# Hsal_pearson_50_df = pd.read_csv("./metadata/Hsal_pearson_reso0.50.csv")
+# rho_heatmap(Hsal_pearson_50_df, "Hsal_pearson_50")
+# # %%
+# Amel_log1p_50_df
+# %%
+#! 例： 使用Amel_log1p_50_df重写 rho_heatmap 函数整套流程
+# %%
+def do_fdr_bh(
     df: pd.DataFrame,
-    filename: str,
+) -> pd.DataFrame:
+    _, p1_adj, _, _ = multipletests(df["p1"], method="fdr_bh")
+    _, p2_adj, _, _ = multipletests(df["p2"], method="fdr_bh")
+    df["p1_fdr"] = p1_adj
+    df["p2_fdr"] = p2_adj
+    return df
+
+def make_mask(
+    df: pd.DataFrame,
+    threshold: float = 0.05,
+) -> tuple:
+    df = df.copy()
+    rho1 = df.pivot(index="cluster", columns="param", values="rho_umap1")
+    rho2 = df.pivot(index="cluster", columns="param", values="rho_umap2")
+    p1_mat = df.pivot(index="cluster", columns="param", values="p1_fdr")
+    p2_mat = df.pivot(index="cluster", columns="param", values="p2_fdr")
+    rho1_masked = rho1.where(p1_mat < threshold, other=np.nan)
+    rho2_masked = rho2.where(p2_mat < threshold, other=np.nan)
+    return rho1_masked, rho2_masked
+
+def visualize_heat(
+    rho_masked: tuple,
+    filename: str
 ) -> None:
-    pivot_umap1 = df.pivot_table(
-        index='cluster', 
-        columns='param', 
-        values='rho_umap1'
+    rho1_masked = rho_masked[0]
+    rho2_masked = rho_masked[1]
+    vmax = np.nanmax([
+        np.nanmax(np.abs(rho1_masked.values)),
+        np.nanmax(np.abs(rho2_masked.values))
+    ])
+    fig, axes = plt.subplots(1, 2, figsize=(14, max(4, len(rho1_masked) * 0.5 + 2)))
+    common_kwargs = dict(
+        cmap="RdBu_r",
+        vmin=-vmax,
+        vmax=vmax,
+        linewidths=0.5,
+        linecolor="grey",
+        annot=True,
+        fmt=".2f",
+        cbar_kws={"label": "Spearman ρ"},
     )
-    fig, ax = plt.subplots(figsize=(8, max(6, len(pivot_umap1) * 0.5)))
-    sns.heatmap(
-        pivot_umap1,
-        cmap="RdBu_r",        # 红蓝双色：红=正相关，蓝=负相关
-        center=0,             # 以0为中心对称着色
-        vmin=-0.8, vmax=0.8,  # 固定色标范围，确保跨图可比
-        annot=True,           # 在格子内显示数值
-        fmt=".2f",            # 保留两位小数
-        linewidths=0.5,       # 格子边框线
-        linecolor='white',
-        cbar_kws={'label': 'Spearman ρ (UMAP1)', 'shrink': 0.8},
-        ax=ax
-    )
-    ax.set_title("UMAP1 vs Technical Covariates", fontsize=14)
-    ax.set_ylabel("Leiden Cluster")
-    ax.set_xlabel("Technical Covariate")
+    for ax, rho_mat, title in zip(
+        axes,
+        [rho1_masked, rho2_masked],
+        ["UMAP1", "UMAP2"]
+    ):
+        sns.heatmap(rho_mat, ax=ax, **common_kwargs)
+        ax.set_xlabel("Technical factor")
+        ax.set_ylabel("Leiden cluster")
     plt.tight_layout()
-    plt.savefig(f"./figures/spearman_heatmap_{filename}_UMAP1_rho.png", dpi=150, bbox_inches='tight')
-    plt.show()
-
-    pivot_umap2 = df.pivot_table(
-        index='cluster', 
-        columns='param', 
-        values='rho_umap2'
-    )
-    fig, ax = plt.subplots(figsize=(8, max(6, len(pivot_umap2) * 0.5)))
-    sns.heatmap(
-        pivot_umap2,
-        cmap="RdBu_r",        
-        center=0,             
-        vmin=-0.8, vmax=0.8,  
-        annot=True,           
-        fmt=".2f",            
-        linewidths=0.5,       
-        linecolor='white',
-        cbar_kws={'label': 'Spearman ρ (UMAP2)', 'shrink': 0.8},
-        ax=ax
-    )
-
-    ax.set_title("UMAP2 vs Technical Covariates", fontsize=14)
-    ax.set_ylabel("Leiden Cluster")
-    ax.set_xlabel("Technical Covariate")
-    plt.tight_layout()
-    plt.savefig(f"./figures/spearman_heatmap_{filename}_UMAP2_rho.png", dpi=150, bbox_inches='tight')
+    plt.savefig(f"./figures/{filename}_UMAP2_rho.png", dpi=150, bbox_inches='tight')
     plt.show()
 # %%
 Amel_log1p_50_df = pd.read_csv("./metadata/Amel_log1p_reso0.50.csv")
-rho_heatmap(Amel_log1p_50_df, "Amel_log1p_50")
+visualize_heat(make_mask(do_fdr_bh(Amel_log1p_50_df)), "Amel_log1p_50")
 # %%
 Amel_scran_50_df = pd.read_csv("./metadata/Amel_scran_reso0.50.csv")
-rho_heatmap(Amel_scran_50_df, "Amel_scran_50")
+visualize_heat(make_mask(do_fdr_bh(Amel_scran_50_df)), "Amel_scran_50")
 # %%
 Amel_pearson_50_df = pd.read_csv("./metadata/Amel_pearson_reso0.50.csv")
-rho_heatmap(Amel_pearson_50_df, "Amel_pearson_50")
+visualize_heat(make_mask(do_fdr_bh(Amel_pearson_50_df)), "Amel_pearson_50")
 # %%
 Acer_log1p_50_df = pd.read_csv("./metadata/Acer_log1p_reso0.50.csv")
-rho_heatmap(Acer_log1p_50_df, "Acer_log1p_50")
+visualize_heat(make_mask(do_fdr_bh(Acer_log1p_50_df)), "Acer_log1p_50_df")
 # %%
 Acer_scran_50_df = pd.read_csv("./metadata/Acer_scran_reso0.50.csv")
-rho_heatmap(Acer_scran_50_df, "Acer_scran_50")
+visualize_heat(make_mask(do_fdr_bh(Acer_scran_50_df)), "Acer_scran_50_df")
 # %%
 Acer_pearson_50_df = pd.read_csv("./metadata/Acer_pearson_reso0.50.csv")
-rho_heatmap(Acer_pearson_50_df, "Acer_pearson_50")
+visualize_heat(make_mask(do_fdr_bh(Acer_pearson_50_df)), "Acer_pearson_50_df")
 # %%
 Hsal_log1p_50_df = pd.read_csv("./metadata/Hsal_log1p_reso0.50.csv")
-rho_heatmap(Hsal_log1p_50_df, "Hsal_log1p_50")
+visualize_heat(make_mask(do_fdr_bh(Hsal_log1p_50_df)), "Hsal_log1p_50_df")
 # %%
 Hsal_scran_50_df = pd.read_csv("./metadata/Hsal_scran_reso0.50.csv")
-rho_heatmap(Hsal_scran_50_df, "Hsal_scran_50")
+visualize_heat(make_mask(do_fdr_bh(Hsal_scran_50_df)), "Hsal_scran_50_df")
 # %%
 Hsal_pearson_50_df = pd.read_csv("./metadata/Hsal_pearson_reso0.50.csv")
-rho_heatmap(Hsal_pearson_50_df, "Hsal_pearson_50")
-# %%
+visualize_heat(make_mask(do_fdr_bh(Hsal_pearson_50_df)), "Hsal_pearson_50_df")
