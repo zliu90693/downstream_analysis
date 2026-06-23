@@ -332,7 +332,7 @@ def visualize_heat(
         ax.set_xlabel("Technical factor")
         ax.set_ylabel("Leiden cluster")
     plt.tight_layout()
-    plt.savefig(f"./figures/{filename}_UMAP2_rho.png", dpi=150, bbox_inches='tight')
+    plt.savefig(f"./figures/{filename}_rho.png", dpi=150, bbox_inches='tight')
     plt.show()
 # %%
 Amel_log1p_50_df = pd.read_csv("./metadata/Amel_log1p_reso0.50.csv")
