@@ -8,6 +8,9 @@ import matplotlib.pyplot as plt
 from statsmodels.stats.multitest import multipletests
 import numpy as np
 # %%
+#! ---------------------------------------------------------------------------------------------------
+#! --------------------------------------- Generate output csv ---------------------------------------
+#! ---------------------------------------------------------------------------------------------------
 def check_cluster_spearman(
     adata: anndata.AnnData,
     cluster_id: str,
