@@ -29,9 +29,9 @@ def load_h5_parallel(
     
     print(f"Found {len(files)} files: {[Path(f).name for f in files]}")  
     
-    # 文件小时，串行反而最快
-    if len(files) <= 4:
-        return {f: sc.read_h5ad(f) for f in files}
+    # # 文件小时，串行反而最快
+    # if len(files) <= 4:
+    #     return {f: sc.read_h5ad(f) for f in files}
     
     # 文件多且大时，用进程池绕过GIL
     with ProcessPoolExecutor(max_workers=max_workers) as executor:
