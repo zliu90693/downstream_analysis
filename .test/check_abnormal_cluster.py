@@ -24,19 +24,19 @@ Amel = sc.read_h5ad("../Zhang_iScience_2022_Amel/data/7_cluster-output/concat.h5
 # sc.pl.embedding(Amel, basis="X_umap_harmony_scran", color=["log1p_total_counts", "log1p_n_genes_by_counts", "pct_counts_mt", "pct_counts_in_top_20_genes"])
 # sc.pl.embedding(Amel, basis="X_umap_harmony_pearson", color=["log1p_total_counts", "log1p_n_genes_by_counts", "pct_counts_mt", "pct_counts_in_top_20_genes"])
 # %%
-fig, axes = plt.subplots(1, 2, figsize=(10, 5))
-sns.histplot(Amel.obs["total_counts"], bins=100, kde=False, ax=axes[0])
-sns.histplot(Amel.layers["analytic_pearson_residuals"].sum(1), bins=100, kde=False, ax=axes[1])
-# fig
-# %%
-fig, axes = plt.subplots(1, 2, figsize=(10, 5))
-sns.histplot(Amel.obs["total_counts"], bins=100, kde=False, ax=axes[0])
-sns.histplot(Amel.layers["log1p_norm"].sum(1), bins=100, kde=False, ax=axes[1])
-# fig
-# %%
-fig, axes = plt.subplots(1, 2, figsize=(10, 5))
-sns.histplot(Amel.obs["total_counts"], bins=100, kde=False, ax=axes[0])
-sns.histplot(Amel.layers["scran_normalization"].sum(1), bins=100, kde=False, ax=axes[1])
+# fig, axes = plt.subplots(1, 2, figsize=(10, 5))
+# sns.histplot(Amel.obs["total_counts"], bins=100, kde=False, ax=axes[0])
+# sns.histplot(Amel.layers["analytic_pearson_residuals"].sum(1), bins=100, kde=False, ax=axes[1])
+# # fig
+# # %%
+# fig, axes = plt.subplots(1, 2, figsize=(10, 5))
+# sns.histplot(Amel.obs["total_counts"], bins=100, kde=False, ax=axes[0])
+# sns.histplot(Amel.layers["log1p_norm"].sum(1), bins=100, kde=False, ax=axes[1])
+# # fig
+# # %%
+# fig, axes = plt.subplots(1, 2, figsize=(10, 5))
+# sns.histplot(Amel.obs["total_counts"], bins=100, kde=False, ax=axes[0])
+# sns.histplot(Amel.layers["scran_normalization"].sum(1), bins=100, kde=False, ax=axes[1])
 # %%
 def visual_counts(
     adata: anndata.Anndata
@@ -69,4 +69,16 @@ visual_counts(Amel)
 visual_counts(Acer)
 # %%
 visual_counts(Hsal)
+# %%
+sc.pl.embedding(Hsal, basis="X_umap_harmony_log1p", color=["size_factors"])
+sc.pl.embedding(Hsal, basis="X_umap_harmony_scran", color=["size_factors"])
+sc.pl.embedding(Hsal, basis="X_umap_harmony_pearson", color=["size_factors"])
+# %%
+sc.pl.embedding(Amel, basis="X_umap_harmony_log1p", color=["size_factors"])
+sc.pl.embedding(Amel, basis="X_umap_harmony_scran", color=["size_factors"])
+sc.pl.embedding(Amel, basis="X_umap_harmony_pearson", color=["size_factors"])
+# %%
+sc.pl.embedding(Acer, basis="X_umap_harmony_log1p", color=["size_factors"])
+sc.pl.embedding(Acer, basis="X_umap_harmony_scran", color=["size_factors"])
+sc.pl.embedding(Acer, basis="X_umap_harmony_pearson", color=["size_factors"])
 # %%
