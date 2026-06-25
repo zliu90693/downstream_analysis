@@ -51,7 +51,7 @@ def pre_scran(
         adata_pp, key_added="groups", flavor="igraph", n_iterations=2, directed=False
     )
 
-    data_mat = adata_pp.X.T
+    data_mat = adata.layers["counts"].T
     if issparse(data_mat):
         if data_mat.nnz > 2**31 - 1:
             data_mat = data_mat.tocoo()
@@ -135,6 +135,8 @@ visualize_shift_log(combined_h5ad)
 pre_scran(project_name, combined_h5ad)
 # %%
 do_scran(project_name) # Use rm_ambient_doublet environment!!!
+# conda activate rm_ambient_doublet
+# ./4._run_scran.R "Sheng_SA_2020_Hsal" 
 # %%
 combine_scran_output(project_name, combined_h5ad)
 # %%
@@ -157,8 +159,9 @@ visualize_shift_log(combined_h5ad)
 pre_scran(project_name, combined_h5ad)
 # %%
 do_scran(project_name) # Use rm_ambient_doublet environment!!!
+# ./4._run_scran.R "Acer" 
 # %%
-combine_scran_output(project_name, combined_h5ad)
+combine_scran_output(project_name, combined_h5ad) # <--- 下一步
 # %%
 visualize_scran(combined_h5ad)
 # %%
@@ -179,7 +182,7 @@ pre_scran(project_name, combined_h5ad)
 # %%
 do_scran(project_name) # Use rm_ambient_doublet environment!!!
 # %%
-combine_scran_output(project_name, combined_h5ad)
+combine_scran_output(project_name, combined_h5ad) # <--- 下一步
 # %%
 visualize_scran(combined_h5ad)
 # %%
