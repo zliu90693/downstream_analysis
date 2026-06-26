@@ -74,3 +74,12 @@ import scrublet as scr
 Amel.X = Amel.layers["counts"].copy()
 sc.pp.scrublet(Amel)
 # %%
+Amel.obs
+
+Amel.obs["predicted_doublet"].sum()
+# 0
+
+#! ↑ 证明不是双细胞没除尽的问题
+# %%
+Amel.obs[["doublet_score", "predicted_doublet"]].to_csv("./metadata/scrublet_output.csv")
+# %%
