@@ -60,3 +60,17 @@ sc.pl.embedding(Amel, basis="X_umap_harmony_log1p", color=["leiden_harmony_log1p
 sc.pl.embedding(Amel, basis="X_umap_harmony_scran", color=["leiden_harmony_scran_res0.50"])
 sc.pl.embedding(Amel, basis="X_umap_harmony_pearson", color=["leiden_harmony_pearson_res0.50"])
 # %%
+# Amel
+# %%
+sc.pl.embedding(Amel, basis="X_umap_harmony_pearson", color=["size_factors", "log1p_total_counts", "log1p_n_genes_by_counts", "pct_counts_mt", "pct_counts_in_top_20_genes"])
+
+# %%
+sc.pl.embedding(Amel, basis="X_umap_harmony_log1p", color=["size_factors", "log1p_total_counts", "log1p_n_genes_by_counts", "pct_counts_mt", "pct_counts_in_top_20_genes"])
+# %%
+sc.pl.embedding(Amel, basis="X_umap_harmony_scran", color=["size_factors", "log1p_total_counts", "log1p_n_genes_by_counts", "pct_counts_mt", "pct_counts_in_top_20_genes"])
+# %%
+import scrublet as scr
+
+Amel.X = Amel.layers["counts"].copy()
+sc.pp.scrublet(Amel)
+# %%
